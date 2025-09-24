@@ -2,7 +2,7 @@
 
 [My Notes](notes.md)
 
->The application is named BestWings, representing the idea taking flights into the world through the best routes. It allows users to search for flights not only by specific dates and prices but also by discovering the most optimal route.
+>DietBuilder helps users calculate their Recommended Dietary Allowances (RDA) from their height, weight, and goals. By logging meals, it highlights nutrient gaps and makes nutrition tracking simple.
 
 <!--  A brief description of the application here. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
 
@@ -30,13 +30,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
-> BestWings is a smart flight search application that helps travelers save money and plan smoother trips. Unlike regular search tools, BestWings not only displays prices, luggage fees, meals, Wi-Fi availability, and services, but also highlights potential saving if the user flies a day earlier or later. By making the best route clear and flexible, it creates a stress-free experience — the perfect tool for first-time travelers and anyone who eager to explore the world.
+>DietBuilder is a smart nutrition-tracking application that helps users manage their dietary intake with ease. By entering their height, weight, and goal weight, users can instantly calculate their Recommended Dietary Allowances (RDA). They can then log the foods they eat throughout the day, and DietBuilder will compare their intake against RDA targets to highlight any nutritional deficiencies. Whether you’re looking to maintain weight, gain muscle, or improve your overall health, DietBuilder provides clear guidance and actionable insights to keep you on track.
 
 <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
 
 ### Design
 
-![Design image](logo.png)
+![Design image](Dietbuilder_logo.png)
 ![Design image](plan.jpg)
 
 <!--Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.-->
@@ -58,15 +58,15 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
->- **HTML** - Create the structured layout for the search form, results, and user login page
+>- **HTML** -Build the structure for input forms (height, weight, food logs) and display nutrition analysis results.
 
 >- **CSS** - Design a clear and simple interface, and style the logo in an appealing way.
 
->- **React** - Build components for the search form, flight detials,and date selection, and handle routing between login, search, and results pages. 
->- **Service** - Manage backend logic for login, logout, registeration, and flight searches by date.
+>- **React** -Create reusable components for logging food, displaying RDA results, and navigating between pages (login, dashboard, history).
+>- **Service** - Handle backend logic for user authentication, food database queries, and RDA calculations.
 >- **DB/Login**
-- Store user accounts, login credentials, and flight search history.
->- **WebSocket** - Enable real-time updates, such as price changes. 
+- Store user profiles, login credentials, daily logs, and historical nutrition data securely.
+>- **WebSocket** - Provide real-time updates for shared or collaborative features (e.g., live progress sharing or quick syncing across devices).
 
 ## 🚀 AWS deliverable
 
@@ -78,15 +78,16 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** -I created 4 pages: login.html, profile.html, dietinput.html, and graph.html.
+- [x] **Proper HTML element usage** - I used elements such as nav, div, select, and option to structure and display content across the pages.
+- [x] **Links** -I linked all 4 pages using header titles for easy navigation.
+- [x] **Text** -I created sections for users to input information to verify their account.
+- [x] **3rd party API placeholder** - I added a placeholder for a nutrition API in dietinput.html.
+
+- [x] **Images** - I inserted icons and a logo to enhance the visual presentation.
+- [x] **Login placeholder** - I implemented a login input and a placeholder function to demonstrate where user authentication will occur.
+- [x] **DB data placeholder** - I added a placeholder to show where user data from a database, such as profile information and saved diets, will appear.
+- [x] **WebSocket placeholder** - I added a placeholder to show where calorie tracking or live graph data will appear in real-time.
 
 ## 🚀 CSS deliverable
 
