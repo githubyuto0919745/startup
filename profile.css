@@ -36,3 +36,87 @@ h1{
     text-decoration :none;
     color:rgb(240, 127, 15)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer{
+    
+    display:flex;
+    justify-content: space-between;
+    background-color: rgb(214, 249, 240);
+    align-items: center;
+    padding:10px 50px;
+    flex-wrap: wrap;
+}
+.footerleft{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.footer-logo img{
+    height:auto;
+    width:100px;
+    margin-top: 30px;
+}
+.social-icons{
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+
+}
+.social-icons img {
+    object-fit: contain;
+}
+#instaicons{
+    width: 70px;
+    height:70px;
+}
+#faceicons{
+    width:90px;
+    height:90px;
+}
+.footerinfo{
+    display:flex;
+    flex-direction:column;
+    font-size:20px;
+    gap:5px;
+}
+.footerright{
+    font-size: 20px;
+}
+.footerright a{
+    text-decoration: none;
+    color:black;
+} 

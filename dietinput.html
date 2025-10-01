@@ -3,16 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Yuto Akatsuka</title>
+    <link rel="stylesheet" href="dietinput.css">
 </head>
 <body>
     <header>
-        <h1>Welcome Yuto</h1>
-        <nav>
-            <a href="index.html">Login </a>
-            <a href="profile.html">Profile </a>
-            <a href="dietinput.html">Input </a>
-            <a href="graph.html">Graph </a>
+        <h1 class = "logo">
+            Dietbuilder
+            <img src="image/dietbuilderlogo.png">     
+        </h1>
+        <nav class="navigator">
+            <a class = "loginlink" href="index.html">Login </a>
+            <a class ="profilelink" href="profile.html">Profile </a>
+            <a class = "inputlink" href="dietinput.html">Input </a>
+            <a class ="graphlink" href="graph.html">Graph </a>
         </nav>
     </header>
 
@@ -47,16 +51,28 @@
     </main>
 
     <footer>
-    <img src="Dietbuilder_logo.png" width="100">
-    <!-- <a href="urlthatlinktosocialmedia for both" -->
-    <img src="instagramlogo">
-    <img src="facebooklogo">
-    <p >phone number</p>
-    <p >address</p>
-    <p>Project<a href="https://github.com/githubyuto0919745/startup">GitHub</a></p>
+       <div class="footerleft">
+        <div class="footer-logo">
+            <img src="image/dietbuilderlogo.png" alt="logo">
+        </div>
+        <div class="social-icons">
+            <img id = "instaicons" src="image/instalogo.jpg" alt="Instagram">
+            <img id ="faceicons" src="image/facebologo.jpg" alt="Facebook">
+        </div>
+       </div>
 
+       <div class="footermiddle">
+        <div class ="footerinfo">
+            <p>Phone:  (634)214 5453</p>
+            <p>Address:  1457 South Main Street, Provo Utah</p>
+        </div>
+       </div>
 
-</footer>
+       <div class="footerright">
+         <a href="https://github.com/githubyuto0919745/startup">GitHub</a>
+       </div>
+    </footer>
+    
     
 </body>
 </html>
