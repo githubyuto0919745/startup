@@ -37,7 +37,34 @@ h1{
     color:rgb(240, 127, 15)
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width:100%;
+    
+}
 
+.food{
+    background-color: rgb(161, 220, 220);
+    width:400px;
+    height:300px;
+    border-radius: 20px;
+
+}
+
+.category{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+#search{
+    display:flex;
+    justify-content: center;
+}
 
 
 
