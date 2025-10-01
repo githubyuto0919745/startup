@@ -9,13 +9,17 @@ body{
 header {
     background-color: rgb(214, 249, 240);
     position:relative;
+    display:flex;
+    justify-content: space-between;
     z-index:2;
+    box-shadow: 0;
 
 }
 
-h1{
+.logo{
     display:flex;
     justify-content: center;
+    align-items: center;
     font-size:50px;
     color:black;
 }
@@ -30,6 +34,7 @@ h1{
     justify-content: center;
     gap:50px;
     font-size:25px;
+    margin: 60px 20px 20px 0;
     z-index: 1;
 }
 .navigator a {
