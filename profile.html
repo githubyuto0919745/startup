@@ -21,127 +21,52 @@
     </header>
 
     <main>
+        <div class="profile">
 
-       <img src="backgroundimages">
-       <!-- <p>Database data placeholder showing here to save profile user </p> -->
-
-        <div class = "name">Name</div>
-
-        <!-- After the user input their name, it should show on each pages of welcome message so it can make more personal-->
-       
-        <img id = icon src="personicon.webp" alt = "User Icon" width="100" >
-        
-        <label for = "gender">Gender: </label>
-        <select id = "gender">
-            <option value = "select gender">select gender</option>
-            <option value = "male">male</option>
-            <option value = "female">female</option>
-        </select>
-
-        
-        <label value="age">Age</label>
-        <input type= "age" id="age" placeholder="input age"  />
-
-        
-
-        <script>
-            const gender = document.getElementById("gender");
-            const icon = document.getElementById("icon");
+            <img id = "icon" src="image/personicon.webp" alt = "User Icon" width="100" >
+            <div class = "name">Name:
+                <input id="firstname" placeholder="First">
+                <input id="lastname" placeholder="Last">
+            </div>
             
-            gender.addEventListener("change", function()
-            {
-            if (this.value == "male"){
-                icon.src="maleicon.webp";
-            }else if(this.value == "female"){
-                icon.src= "femaleicon.webp";
-            }else{
-                icon.src="personicon.webp";
-            }
-            });
-        </script>
+            <div class = "gender">Gender:
+                <select id = "gender">
+                    <option value = "select gender">Select gender</option>
+                    <option value = "male">male</option>
+                    <option value = "female">female</option>
+                </select>
+            </div>
 
-        <!--If the user select male, show off male icon so femal on-->
-        <label value ="height">Height </label>
-        
-        <select id="heightvalue"></select>
-
-        <select id="heightunits">
-            <option>cm</option>
-            <option>feet</option>
-        </select>
-
-        <script>
-            const heightvalue = document.getElementById("heightvalue");
-            const heightunits = document.getElementById("heightunits");
-
-            function updateHeightNum(){
-                heightvalue.innerHTML = "";
-
-                if (heightunits.value === "cm"){
-                heightvalue.innerHTML = `  
-                <option>150 </option>
-                <option>155 </option>
-                <option>160 </option>
-                <option>165 </option>
-                <option>170 </option>
-                <option>175 </option>
-                <option>180 </option>
-                <option>185 </option>
-                <option>190 </option>
-                <option>195 </option>
-
-                `;
             
-                }else{
-                heightvalue.innerHTML =`
+            <div class ="age">Age: 
+                <input type= "number" id="age" placeholder=" Insert age" min="1" max="120" />
+            </div>
 
-                <option> 5.4 </option>
-                <option> 5.5 </option>
-                <option> 5.6 </option>
-                <option> 5.7 </option>
-                <option> 5.8 </option>
-                <option> 5.9 </option>
-                <option> 5.10 </option>
-                <option> 5.11</option>
-                <option> 6.0</option>
-                <option> 6.1 </option>
-                <option> 6.2 </option>
-                <option> 6.3 </option>
-                <option> 6.4 </option>
-                <option> 6.5 </option>
+            <!--If the user select male, show off male icon so femal on-->
+            <div class ="height">Height:  
+                <select id="heightvalue"></select>
 
+                <select id="heightunits">
+                    <option>cm</option>
+                    <option>feet</option>
+                </select>
+            </div>
 
-                `;
-                }}
-        updateHeightNum();
-
-        heightunits.addEventListener("change",updateHeightNum);
-        </script> 
-
-        
-        <label value = "weight">weight</label>
-        <select id="weightvalue"></select>
-        <select id="weightunits">
-            <option>kg</option>
-            <option>lbs</option>
-        </select>
-
-        <label value="bmi">BMI</label>
-        <section id = "bmi">BMI</section>
-
-        <script> 
-            const bmi= document.getElementById("bmi");
-            const height = document.getElementById("height");
-            const weight = document.getElementById("weight");
             
-            bmi = height * weight;
-            return 0;
-        </script>
+            <label class = "weight">Weight: </label>
+            <select id="weightvalue"></select>
+            <select id="weightunits">
+                <option>kg</option>
+                <option>lbs</option>
+            </select>
 
-        <label value="RDA">RDA</label>
-        <section id = "RDA">RDA</section>
+            <label value="bmi">BMI</label>
+            <span id = "bmi">BMI </span>
 
-      
+            <label value="RDA">RDA</label>
+            <span id = "RDA">RDA</span>
+
+        </div>
 
         
     </main>
@@ -171,7 +96,7 @@
        </div>
     </footer>
     
-
+    <script src="profile.js"></script>  
 </body>
 
 </html>
