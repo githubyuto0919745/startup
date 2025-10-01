@@ -3,52 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Log in</title>
+    <title>Yuto Akatsuka</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <header>
-        <h1>Yuto Akatsuka</h1>
-        <nav>
-            <a href="index.html">Login </a>
-            <a href="profile.html">Profile </a>
-            <a href="dietinput.html">Input </a>
-            <a href="graph.html">Graph </a>
+        <h1 class = "logo">
+            Dietbuilder
+            <img src="dietbuilderlogo.png">     
+        </h1>
+        <nav class="navigator">
+            <a class = "loginlink" href="index.html">Login </a>
+            <a class ="profilelink" href="profile.html">Profile </a>
+            <a class = "inputlink" href="dietinput.html">Input </a>
+            <a class ="graphlink" href="graph.html">Graph </a>
         </nav>
     </header>
     
     
     <main>
-            <img src="backgroundimages">
-
-        <label for = "Sign Up">Sign Up</label>
-        <label for="name">Name</label>
-        <input id="name" palceholder="what is your name"> 
-        <img src = "personicon.webp" width= "100">
         
-        
-        <label for = "Log In">Log in</label>
-
-        <label for = "text"> Text: </label>
-        <input type="text" id="text" name ="varText" placeholder="text here" required />
-        
-
-        <lebal class ="email">Email</label>
-        <input type="email" id = "email" name="varEmail" placeholder = "abcde@gmail.com">
-        <input type =" Password" id=""password>Password </input>
-        <button class = "login">Log in</button>
+        <img class="person-icons" src = "personicon.webp" alt ="logoimage">
             
-
+        <div class= "loginspace">
+            <label for = "username"> Username </label>
+            <input id="username" placeholder="username">
+            <label for ="password"> Password </label>
+            <input id= "password" placecholder="password">
+            
+            <button for = "Log In">Log in</button> 
+        </div>
+        
+        <div class="signupspace">    
+            <label for= "email"> Email </label>
+            <input id= "email"  placeholder = "abcde@gmail.com">
+            <label for="newpassword"> New Password </label>
+            <input id="newpassword" placeholder="New Password">
+            
+            <button for = "sign Up">Sign Up</button>   
+        </div>
+        
     </main>
 
-    <footer>
-    <img src="Dietbuilder_logo.png" width="100">
-    <!-- <a href="urlthatlinktosocialmedia for both" -->
-    <img src="instagramlogo">
-    <img src="facebooklogo">
-    <p >phone number</p>
-    <p >address</p>
-    <p>Project<a href="https://github.com/githubyuto0919745/startup">GitHub</a></p>
 
+
+
+
+
+    <footer>
+       <div class="footerleft">
+        <div class="footer-logo">
+            <img src="dietbuilderlogo.png" alt="logo">
+        </div>
+        <div class="social-icons">
+            <img id = "instaicons" src="instalogo.jpg" alt="Instagram">
+            <img id ="faceicons" src="facebologo.jpg" alt="Facebook">
+        </div>
+       </div>
+
+       <div class="footermiddle">
+        <div class ="footerinfo">
+            <p>Phone:  (634)214 5453</p>
+            <p>Address:  1457 South Main Street, Provo Utah</p>
+        </div>
+       </div>
+
+       <div class="footerright">
+         <a href="https://github.com/githubyuto0919745/startup">GitHub</a>
+       </div>
     </footer>
     
 </body>
