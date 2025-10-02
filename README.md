@@ -93,12 +93,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** -Added image logo and, font color, and positions. Also included background picture in main and placed each input botton.
-- [ ] **Navigation elements** -  Took off link decoration and added font color and placed on the left side.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** -I added a logo, adjusted font color and positions, included a background image for the main section, and placed each input button.
+- [x] **Navigation elements** - I removed link underlines, changed font color, and positioned the navigation links on the left side.
+- [x] **Responsive to window resizing** - I did not complete this part of the deliverable.
+- [x] **Application elements** -I added input fields, buttons, and tables to allow users to interact with the app.
+- [x] **Application text content** - I added labels to clearly describe each section and input field.
+- [x] **Application images** -I added background images, logos, and icons to enhance visual design.
 
 ## 🚀 React part 1: Routing deliverable
 
