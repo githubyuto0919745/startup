@@ -9,13 +9,17 @@ body{
 header {
     background-color: rgb(214, 249, 240);
     position:relative;
+    display:flex;
+    justify-content: space-between;
     z-index:2;
+    box-shadow: 0;
 
 }
 
-h1{
+.logo{
     display:flex;
     justify-content: center;
+    align-items: center;
     font-size:50px;
     color:black;
 }
@@ -30,6 +34,7 @@ h1{
     justify-content: center;
     gap:50px;
     font-size:25px;
+    margin: 60px 20px 20px 0;
     z-index: 1;
 }
 .navigator a {
@@ -38,6 +43,7 @@ h1{
 }
 
 main{
+    position:relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,27 +52,107 @@ main{
     width:100%;
     
 }
+main::before{
+    content: "";
+    position: absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background-image: url("image/profileback.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    filter:blur(3px);
+    z-index:0;
 
-.food{
+}
+main > *{
+    position:relative;
+    z-index: 1;
+}
+
+
+
+.foodselect {
     background-color: rgb(161, 220, 220);
-    width:400px;
-    height:300px;
+    width:600px;
+    height:700px;
     border-radius: 20px;
+    gap:20px;
+    padding: 20px;
+    display:flex;
+    flex-direction: column;
+    z-index:3;
+    
 
+}
+
+label[for="category"]{
+    font-size:25px;
+    padding:10px;
 }
 
 .category{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom:15px;
 
 }
 #search{
     display:flex;
     justify-content: center;
+    gap:10px;
+    margin-bottom:20px;
+    
+}
+#intaketable{
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    height:80px;
+    width:100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+#intaketable th, #intaketable td{
+    border:1px solid black;
+    padding:10px;
+    text-align: center;
+
+}
+#add{
+  align-self: flex-end;
+  display:block;
+  margin:20px 0px 30px 40px;
+  border:none;
+  border-radius: 2px;
+  height:30px;
+  width:45px;
+  cursor:pointer;
+}
+#add:hover{
+    background-color: red;
 }
 
+#intakelist{
+    list-style:none;
+    padding:0;
+    gap:10px;
+    display: flex;
+    flex-direction: column;
+    background-color: aquamarine;
+    border-radius: 8px;
+    max-height:200px;
+    overflow-y:auto;
 
+
+}
+
+#intaklist li{
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom:10px;
+}
 
 
 

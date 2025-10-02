@@ -9,13 +9,17 @@ body{
 header {
     background-color: rgb(214, 249, 240);
     position:relative;
+    display:flex;
+    justify-content: space-between;
     z-index:2;
+    box-shadow: 0;
 
 }
 
-h1{
+.logo{
     display:flex;
     justify-content: center;
+    align-items: center;
     font-size:50px;
     color:black;
 }
@@ -30,6 +34,7 @@ h1{
     justify-content: center;
     gap:50px;
     font-size:25px;
+    margin: 60px 20px 20px 0;
     z-index: 1;
 }
 .navigator a {
@@ -37,6 +42,44 @@ h1{
     color:rgb(240, 127, 15)
 }
 
+main {
+  position: relative;
+  min-height: 100vh;
+  width:100%;
+  display: flex;             
+  justify-content: center;   
+  align-items: center; 
+}
+main::before{
+    content: "";
+    position: absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background-image: url("image/profileback.jp");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    filter:blur(3px);
+    z-index:0;
+
+}
+
+.graph-set{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    position:absolute;
+    top:30px;
+    left:10%;
+
+}
+.graph{
+    margin-top:20px;
+    margin-bottom: 30px;
+}
 
 
 
