@@ -95,7 +95,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Header, footer, and main content body** -I added a logo, adjusted font color and positions, included a background image for the main section, and placed each input button.
 - [x] **Navigation elements** - I removed link underlines, changed font color, and positioned the navigation links on the left side.
-- [x] **Responsive to window resizing** - I did not complete this part of the deliverable.
+- [x] **Responsive to window resizing** - I adjusted the width, height, margins, and layout of elements so they adapt properly when the window is resized.
 - [x] **Application elements** -I added input fields, buttons, and tables to allow users to interact with the app.
 - [x] **Application text content** - I added labels to clearly describe each section and input field.
 - [x] **Application images** -I added background images, logos, and icons to enhance visual design.

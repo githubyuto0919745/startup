@@ -84,7 +84,7 @@ main > *{
 
 .foodselect {
     background-color: rgb(161, 220, 220);
-    width:600px;
+    width:80%;
     height:700px;
     border-radius: 20px;
     gap:20px;
@@ -120,8 +120,13 @@ label[for="category"]{
     justify-content: center;
     align-items: center;
     height:80px;
-    width:100%;
+    /* width:calc(100vw - 450px); */
+    width: 100%;
+    table-layout:fixed;
+    word-wrap:break-word;
+    max-width: 100%;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
 }
 #intaketable th, #intaketable td{
     border:1px solid black;
@@ -157,7 +162,7 @@ label[for="category"]{
 
 }
 
-#intaklist li{
+#intakelist li{
     padding: 8px 12px;
     border-radius: 10px;
     margin-bottom:10px;
