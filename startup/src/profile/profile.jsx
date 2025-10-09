@@ -1,29 +1,15 @@
 import './profile.css';
-import logo from './image/dietbuilderlogo.png'; 
-import personIcon from './image/personicon.webp';
-import instaIcon from './image/instalogo.jpg';
-import faceIcon from './image/facebologo.jpg';
 
-function Profile(){
+
+export function Profile(){
     return(
     <div>
-        <header>
-            <h1 className = "logo">
-                Dietbuilder
-                <img src={logo} alt="dietbuilder logo" />     
-            </h1>
-            <nav className="navigator">
-                <a className = "loginlink" href="/">Login </a>
-                <a className ="profilelink" href="/profile">Profile </a>
-                <a className = "inputlink" href="/input">Input </a>
-                <a className ="graphlink" href="/graph">Graph </a>
-            </nav>
-        </header>
+        
 
         <main>
             <div className="profile">
 
-                <img id = "icon" src={personIcon} alt = "personicon" width="100" />
+                <img id = "icon" src="image/personicon.webp" alt = "personicon" width="100" />
                 <div className = "name">Name:
                     <input id="firstname" placeholder="First" />
                     <input id="lastname" placeholder="Last" />
@@ -67,7 +53,7 @@ function Profile(){
                 </div>
 
                 <div className ="goal">
-                    <label for="goal">Goal: </label>
+                    <label htmlFor="goal">Goal: </label>
                     <select id="goal" name="goal">
                         <option value="loss">loss</option>
                         <option value ="gain">gain</option>
@@ -76,11 +62,11 @@ function Profile(){
                 
                 </div>
 
-                <label value="bmi">BMI
+                <label>BMI
                     <div id = "bmi">BMI </div>
                 </label>
 
-                <label value="RDA">RDA
+                <label >RDA
                     <div id = "RDA">RDA</div>
                 </label>
 
@@ -88,33 +74,10 @@ function Profile(){
 
             
         </main>
+    
         
-
-
-        <footer>
-        <div className="footerleft">
-            <div className="footer-logo">
-                <img src={logo} alt="logo" />
-            </div>
-            <div className="social-icons">
-                <img id = "instaicons" src={instaIcon} alt="Instagram" />
-                <img id ="faceicons" src={faceIcon} alt="Facebook" />
-            </div>
-        </div>
-
-        <div className="footermiddle">
-            <div className ="footerinfo">
-                <p>Phone:  (634)214 5453</p>
-                <p>Address:  1457 South Main Street, Provo Utah</p>
-            </div>
-        </div>
-
-        <div className="footerright">
-            <a href="https://github.com/githubyuto0919745/startup">GitHub</a>
-        </div>
-        </footer>
+    
         
-        <script src="profile.js"></script>  
     </div>
 
     );

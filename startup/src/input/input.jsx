@@ -1,29 +1,16 @@
 import './input.css';
-import logo from './image/dietbuilderlogo.png'; 
-import instaIcon from './image/instalogo.jpg';
-import faceIcon from './image/facebologo.jpg';
 
-function Input(){
+
+export function Input(){
     return (
-    <body>
-        <header>
-            <h1 className = "logo">
-                Dietbuilder
-                <img src={logo} alt="dietbuilder logo"/>     
-            </h1>
-            <nav className="navigator">
-                <a className = "loginlink" href="/">Login </a>
-                <a className ="profilelink" href="/profile">Profile </a>
-                <a className = "inputlink" href="/input">Input </a>
-                <a className ="graphlink" href="/graph">Graph </a>
-            </nav>
-        </header>
+    
+ 
 
         <main>
 
             <div className="foodselect">
                 <div className="category">
-                    <label for="category" placeholder="category"><strong>Category </strong></label>
+                    <label htmlFor="category" ><strong>Category </strong></label>
                     <input id="category" name="category" list="category-options" placeholder="category" />
                         <datalist id="category-options">    
                             <option id="meat">meat</option>
@@ -34,10 +21,10 @@ function Input(){
                 </div>
                 
 
-                <form id= "search" action ="/search" method="get">
+                <htmlForm id= "search" action ="/search" method="get">
                     <input type="text" name="query" placeholder="Search..." />
                     <button type="submit"> Search</button>
-                </form>
+                </htmlForm>
 
                 <table id="intaketable">
                     <thead>
@@ -96,38 +83,18 @@ function Input(){
                 </ul>
             </section>
 
-            <p>Creating database to store information of input intake record</p>
+            <p>Creating database to store inhtmlFormation of input intake record</p>
         
 
             
         </main>
 
-        <footer>
-        <div className="footerleft">
-            <div className="footer-logo">
-                <img src={logo} alt= "dietbuilder logo"/>
-            </div>
-            <div className="social-icons">
-                <img id = "instaicons" src={instaIcon} alt="Instagram" />
-                <img id ="faceicons" src={faceIcon} alt="Facebook" />
-            </div>
-        </div>
-
-        <div className="footermiddle">
-            <div className ="footerinfo">
-                <p>Phone:  (634)214 5453</p>
-                <p>Address:  1457 South Main Street, Provo Utah</p>
-            </div>
-        </div>
-
-        <div className="footerright">
-            <a href="https://github.com/githubyuto0919745/startup">GitHub</a>
-        </div>
-        </footer>
+        
         
     
-    </body> 
-
+        
+    
+    
 
     );
 
