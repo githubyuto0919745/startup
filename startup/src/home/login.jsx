@@ -1,15 +1,17 @@
+import React from 'react';
 import './login.css';
 
 
 
-export function Login(){
+export default function Login(){
     return (
 
         
-        
-        <main>
+
+    <main>
+        <div className="main-login">
             
-            <img className="person-icons" src = "image/personicon.webp" alt= "personicon"/>
+            <img className="person-icons" src = "./image/personicon.webp" alt= "personicon"/>
                 
             <div className= "loginspace">
                 <label htmlFor = "username"> Username </label>
@@ -28,8 +30,9 @@ export function Login(){
                 
                 <button>Sign Up</button>   
             </div>
-            
-        </main>
+        </div>
+        
+    </main>
 
 
         

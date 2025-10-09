@@ -13,7 +13,127 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(214, 249, 240);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    z-index:2;
+    box-shadow: 0 4px 8px black;
+    padding: 10px 20px;
+
+}
+
+.logo{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    font-size:50px;
+    color:black;
+}
+.logo img{
+    height:100px;
+    width:100px;
+    color:white;
+    
+}
+.navigator{
+    display:flex;
+    justify-content: center;
+    gap:20px;
+    font-size:18px;
+    margin: 60px 20px 20px 0;
+    z-index: 1;
+}
+.navigator a {
+    font-weight: 500;
+    text-decoration :none;
+    color:black;
+    font-size:20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+footer{
+    
+    display:flex;
+    justify-content: space-between;
+    background-color: rgb(214, 249, 240);
+    align-items: center;
+    padding:20px 0;
+    flex-wrap: wrap;
+    font-weight: 500;
+}
+.footerleft{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+.footer-logo img{
+    height:auto;
+    width:100px;
+    margin-top: 30px;
+}
+.social-icons{
+    display:flex;
+    gap:10px;
+    align-items:center;
+
+
+}
+.social-icons img {
+    object-fit: contain;
+}
+#instaicons{
+    width: 70px;
+    height:70px;
+}
+#faceicons{
+    width:90px;
+    height:90px;
+}
+.footerinfo{
+    display:flex;
+    flex-direction:column;
+    font-size:20px;
+    gap:5px;
+}
+.footerright{
+    font-size: 20px;
+}
+.footerright a{
+    text-decoration: none;
+    color:black;
+} 
+
+
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
@@ -93,4 +213,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

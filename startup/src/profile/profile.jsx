@@ -1,15 +1,14 @@
+import React from 'react';
 import './profile.css';
 
 
-export function Profile(){
+export default function Profile(){
     return(
-    <div>
-        
-
         <main>
+            <div className="main-profile">
             <div className="profile">
 
-                <img id = "icon" src="image/personicon.webp" alt = "personicon" width="100" />
+                <img id = "icon" src="./image/personicon.webp" alt = "personicon" width="100" />
                 <div className = "name">Name:
                     <input id="firstname" placeholder="First" />
                     <input id="lastname" placeholder="Last" />
@@ -71,14 +70,11 @@ export function Profile(){
                 </label>
 
             </div>
+            </div>
 
             
         </main>
-    
-        
-    
-        
-    </div>
+
 
     );
 }

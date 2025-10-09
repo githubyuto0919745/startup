@@ -1,10 +1,12 @@
+import React from 'react';
 import './graph.css';
 
-export function Graph(){
+export default function Graph(){
     return(
 
       
         <main>
+            <div className="main-graph">
             <div className="graph-set">
                 <h1>Graph</h1>
                 <select className="graph">
@@ -12,14 +14,9 @@ export function Graph(){
                     <option>line chart</option>
                     <option>pie chart</option>
                 </select>
-                <img src="/image/graph.png" alt="graph" width="300px" height="300px" />
+                <img src="./image/graph.png" alt="graph" width="300px" height="300px" />
             </div>
             
-            
-            {/* <canvas id="calorieChart" width ="500" height="300"></canvas>
-              
-            <p> Chat with Yuto from user</p>
-            <section id = "chat"> Chat</section> */}
             
             <div className="chat-board">
                 <div id="textspace">
@@ -41,9 +38,9 @@ export function Graph(){
                     <button id="delete">delete</button>
                 </div>
             </div>
+            </div>
             
             
-            {/* <p> Websocket data placeholder with real time chat</p> */}
         </main>
 
 
