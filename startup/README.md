@@ -104,9 +104,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - I have download vite to display 
+- [x] **Components** - I changed html to jsx and import between the files.
+- [x] **Router** - I used Router to connect each pages 
 
 ## 🚀 React part 2: Reactivity deliverable
 
