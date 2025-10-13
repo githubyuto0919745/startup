@@ -14,7 +14,7 @@ export default function Graph(){
                     <option>line chart</option>
                     <option>pie chart</option>
                 </select>
-                <img src="./image/graph.png" alt="graph" width="300px" height="300px" />
+                <img src="/image/graph.png" alt="graph" width="300px" height="300px" />
             </div>
             
             
@@ -29,10 +29,8 @@ export default function Graph(){
                     <p><strong>User:</strong> I had an apple and some toast.</p>
                     <p><strong>User:</strong> I had an apple and some toast.</p>
                     <p><strong>User:</strong> I had an apple and some toast.</p>
-
-                    
                 </div> 
-                <input id="textbox" type="text" placeholder="Type your message..." />
+                <input id="textbox" type="text" placeholder="Type your message..."  width="100px"/>
                 <div className="chat-buttons">
                     <button id="send">Send</button>
                     <button id="delete">delete</button>

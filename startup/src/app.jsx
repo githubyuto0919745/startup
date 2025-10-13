@@ -58,7 +58,7 @@ export default function App(){
             </div>
 
             <div className="footerright">
-                <a to="https://github.com/githubyuto0919745/startup">GitHub</a>
+                <a href="https://github.com/githubyuto0919745/startup">GitHub</a>
             </div>
         </footer>
     </div>
