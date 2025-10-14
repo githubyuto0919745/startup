@@ -85,10 +85,10 @@ header {
   align-items: flex-start;    
   flex-direction: column;
   width:600px;
-  height:900px;
+  height:1000px;
   background:linear-gradient(135deg,
-rgb(138, 4, 80),    
-rgb(208, 197, 205));
+rgb(234, 228, 231,0.9),    
+rgb(208, 197, 205, 0.9));
   
 
   border-radius: 15px;
@@ -104,15 +104,17 @@ rgb(208, 197, 205));
 
 }
 .profile-section{
-    display:flex;
+    display:grid;
+    grid-template-columns: 150px 1fr;
     flex-direction:column;
-    gap:25px;
-    margin-left:30px;
+    gap:70px 100px;
+    margin-left:50px;
+    margin-top:100px;
 }
 
 #icon{
     position:absolute;
-    bottom:800px;
+    bottom:880px;
     color:white;
     width:150px;
     height:150px;
@@ -120,10 +122,27 @@ rgb(208, 197, 205));
     border: 3px solid black;
     z-index:10;
 }
-#icon.male{
-    width :150px;
+.name input{
+    width:200px;
+    padding:8px;
+    
 }
-
+.name input, .age input{
+    border-radius: 4px;
+    border: 2px solid black;
+    font-size: 16px;
+}
+.age input{
+    margin-left:10px;
+    text-align:right;
+    width:70px;
+    height:40px;
+}
+.weight, .height{
+    display:flex;
+    gap:3px;
+    align-items: center;
+}
 
 
 
