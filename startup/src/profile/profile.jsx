@@ -3,37 +3,84 @@ import './profile.css';
 
 
 export default function Profile(){
-    const [gender, getGender] = useState("select");
+    const [gender, getGender] = useState("select gender");
     const [icon, getIcon] = useState("./image/personicon.webp");
 
     const [age, setAge] = useState(0);
 
     const [heightUnits, setHUnits] = useState("cm");
-    const [heightOptions, setHOptions] = useState([150, 155, 160, 165, 170, 175, 180, 185, 190, 195]);
-    const [calheight, setCalHeight] = useState(150);
+
+    const initialHOptions = [150, 155, 160, 165, 170, 175, 180, 185, 190, 195].map(h => ({
+                label: `${h} cm`,
+                value: h
+        }));
+    const [heightOptions, setHOptions] = useState(initialHOptions)
+    const [calheight, setCalHeight] = useState(0);
 
     const [weightUnits, setWUnits] = useState("kg");
     const [weightOptions, setWOptions] = useState([30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105]);
-    const [calweight, setCalWeight] = useState(30);
+    const [calweight, setCalWeight] = useState(0);
 
-    const [activity, setActivity] = useState(1.375);
-    const [goal, setGoal] = useState("Maintain");
+    const [activity, setActivity] = useState("");
+    const [goal, setGoal] = useState("");
     
     
+
+    const calculateFats = () =>{
+        if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
+        const calories =calculateTDEE();
+        if (calories <= 0) return 0;
+        const fatCalories = calories * 0.25;
+        return Math.round(fatCalories/9);
+    }
+    const calculateCarbs = () =>{
+        if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
+        const calories = calculateTDEE();
+        const protein = calculateProtein();
+        const fats = calculateFats();
+
+        const proteinCalories = protein * 4;
+        const fatCalories = fats * 9;
+        const carbCalories = calories - proteinCalories - fatCalories;
+
+        return carbCalories > 0 ? Math.round(carbCalories / 4) : 0;
+    }
+    const calculateProtein = () =>{
+        if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
+        let weightKg = weightUnits === "kg" ? calweight : calweight * 0.45359237;
+         
+         let multiplier = 1.55;
+         if(goal ==="Lose Weight") multiplier = 1.8;
+         else if(goal === "Gain Muscle") multiplier = 2;
+         return Math.round(weightKg * multiplier);
+    }
 
     const calculateTDEE = () =>{
+        if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
         let BMR;
+        let weightKg = weightUnits === "kg" ? calweight : calweight * 0.45359237;
+        let heightCm = heightUnits === "cm" ? calheight : calheight * 30.48;
         if(gender ==="male"){
-            BMR = 10 * calweight + 6.25 * calheight -5 * age + 5;
+            BMR = 10 * weightKg + 6.25 * heightCm -5 * age + 5;
         }else {
-            BMR= 10 * calweight + 6.25 * calheight -5 * age -161;
+            BMR= 10 * weightKg + 6.25 * heightCm -5 * age -161;
         }
 
-        let TDEE = Math.round (BMR * activity);
+        
+        
+        let multiplier = 1;
+        if(activity === "Very Active (6-7 days/week)") multiplier = 1.725;
+        else if (activity === "Moderately Active (3-5 days/week)") multiplier = 1.55;
+        else if (activity === "Lightly Active (1-3 days/week)")  multiplier = 1.375;
 
+        
+        
+        let TDEE = Math.round (BMR * multiplier);
         if(goal ==="Lose Weight") return TDEE - 500;
         else if(goal ==="Maintain") return TDEE;
         else if(goal ==="Gain Muscle") return TDEE + 500;
+
+        return 0;
 
     };
     
@@ -60,14 +107,7 @@ export default function Profile(){
     };
 
     const getActivity = (e) =>{
-        const activitylevel = e.target.value;
-        let multiplier = 1;
-
-        if(activitylevel ==="Very Active (6-7 days/week)") multiplier = 1.375;
-        else if (activitylevel === "Moderately Active (3-5 days/week)") multiplier = 1.55;
-        else if (activitylevel === "Lightly Active (1-3 days/week)")  multiplier = 1.725;
-
-        setActivity(multiplier);
+        setActivity(e.target.value);
     };
 
     const getGoal= (e) =>{
@@ -91,14 +131,32 @@ export default function Profile(){
         setHUnits(selecthUnit);
 
         if(selecthUnit === "cm"){
-        const cmOptions=[150, 155, 160, 165, 170, 175, 180, 185, 190, 195];
+            const cmOptions=[150, 155, 160, 165, 170, 175, 180, 185, 190, 195].map(h => ({
+                label: `${h} cm`,
+                value: h
+        }));
+            
             setHOptions(cmOptions);
-            setCalHeight(cmOptions[0]);  
+            setCalHeight(cmOptions[0].value);  
         }
         else if(selecthUnit === "feet"){
-            const feetOptions = [5.4, 5.5, 5.6, 5.7, 5.8, 5.9, 5.10, 5.11, 6.0, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8];
+            const feetOptions = [{label: "5'0\"", value: 5 + 0/12},
+                                { label: "5'1\"", value: 5 + 1/12 },
+                                { label: "5'2\"", value: 5 + 2/12 },
+                                { label: "5'3\"", value: 5 + 3/12 },
+                                { label: "5'4\"", value: 5 + 4/12 },
+                                { label: "5'5\"", value: 5 + 5/12 },
+                                { label: "5'6\"", value: 5 + 6/12 },
+                                { label: "5'7\"", value: 5 + 7/12 },
+                                { label: "5'8\"", value: 5 + 8/12 },
+                                { label: "5'9\"", value: 5 + 9/12 },
+                                { label: "5'10\"", value: 5 + 10/12 },
+                                { label: "5'11\"", value: 5 + 11/12 },
+                                { label: "6'0\"", value: 6 },
+                            ];
+             
             setHOptions(feetOptions);
-            setCalHeight(feetOptions[0]);
+            setCalHeight(feetOptions[0].value);
         }
     };
 
@@ -164,9 +222,10 @@ export default function Profile(){
                         <div className ="height">
                             Height:  
                             <select value = {calheight} onChange={handleValueHeight}>
+                                <option value="0" disabled>0</option>
                                 {heightOptions.map((h,i) =>(
-                                    <option key={i} value ={h}>
-                                        {h}
+                                    <option key={i} value ={h.value}>
+                                        {h.label}
                                     </option>
                                 ))}
                             </select>
@@ -182,6 +241,7 @@ export default function Profile(){
                         <div className = "weight">
                             Weight: 
                             <select value={calweight} onChange={handleValueWeight}>
+                                <option value="0" disabled>0</option>
                                 {weightOptions.map((w,i) =>(
                                     <option key ={i} value={w}>
                                         {w}
@@ -205,7 +265,8 @@ export default function Profile(){
 
                         <div className ="activity-level">
                             <label htmlFor="activity">Activity Level: </label>
-                            <select value ={activity}  onChange = {getActivity} placeholder=" Activity Level">
+                            <select value ={activity}  onChange = {getActivity}>
+                                <option value="">Select activity level</option>
                                 <option>Very Active (6-7 days/week)</option>
                                 <option>Moderately Active (3-5 days/week)</option>
                                 <option>Lightly Active (1-3 days/week) </option>
@@ -214,7 +275,8 @@ export default function Profile(){
 
                         <div className ="goal">
                             <label htmlFor="goal">Goal: </label>
-                            <select value={goal} onChange={getGoal} name="goal">
+                            <select value={goal} onChange={getGoal}>
+                                <option value="">Select goal</option>
                                 <option value="Lose Weight">Lose Weight</option>
                                 <option value ="Maintain">Maintain</option>
                                 <option value ="Gain Muscle">Gain Muscle</option>
@@ -228,6 +290,32 @@ export default function Profile(){
                         </div>
 
                         
+                        
+                        <div className="RDA">
+                            <div className = "protein">
+                                <label> Protein: </label>
+                                <span> {calculateProtein()} g</span>
+                            </div>
+                            <div className = "carbs">
+                                <label> Carbs: </label>
+                                <span> {calculateCarbs()} g</span>
+                            </div>
+                            <div className = "fats">
+                                <label> Fats: </label>
+                                <span> {calculateFats()} g</span>
+                            </div>
+
+                            <button>Save</button>
+
+                        </div>
+
+                       
+
+
+
+
+
+
                       
                     </div>  
                       

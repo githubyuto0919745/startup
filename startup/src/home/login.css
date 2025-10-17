@@ -48,9 +48,12 @@ header {
     color:black;
     font-size:20px;
 }
+
+
+
 .main-login {
   position: relative;
-  min-height: 100vh;
+  height:1400px;
   width:100%;
   display: flex;
   align-items: flex-start;

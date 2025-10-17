@@ -49,13 +49,19 @@ header {
     font-size:20px;
 }
 
+
+
+
+
+
+
 .main-input{
     position:relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height:1400px;
     width:100%;
     flex-wrap: wrap;
     gap:20px;
@@ -82,9 +88,9 @@ header {
 
 
 .foodselect {
-    background-color: rgba(139, 188, 205, 0.9);
-    width:80%;
-    height:800px;
+    background-color: rgba(139, 188, 205);
+    width:40%;
+    height:600px;
     border-radius: 10px;
     gap:20px;
     padding: 20px;
@@ -100,13 +106,7 @@ label[for="category"]{
     padding:10px;
 }
 
-.category{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom:15px;
 
-}
 #search{
     display:flex;
     justify-content: center;
@@ -155,8 +155,8 @@ label[for="category"]{
     display: flex;
     flex-direction: column;
     background-color: rgb(216, 248, 237);
-    border-radius: 8px;
-    max-height:200px;
+    max-height:300px;
+    width:300px;
     overflow-y:auto;
 
 
@@ -236,3 +236,8 @@ footer{
     text-decoration: none;
     color:black;
 } 
+
+.intakelist{
+    background-color: red;
+    
+}
