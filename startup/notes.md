@@ -118,14 +118,17 @@ Handling the toggling of the checkboxes was particularly interesting.
 -  Padding: space inside the element (between content and border). Margin: space outside the element (between border and other elements)
 
 >- 5. Given this HTML and this CSS how will the images be displayed using flex?
--  If the container uses display: flex;, the images will be displayed in a row by default, side by side, unless flex-direction: column; is specified.
+-  If the container uses display: flex;, the images will be displayed in a row by default ( meaning all images are lined in the same row) , side by side, unless flex-direction: column; is specified (all of them lined within the same column).
 
 
 >- 6. What does the following padding CSS do?
  - Example: padding: 10px 20px; adds 10px top/bottom and 20px left/right inside the element.
+ 
+ padding: 10px 20px 30px 40px;
+top => right => bottom => left
 
 >- 7. What does the following code using arrow syntax function declaration do?
-- Arrow functions are a compact function syntax. (a, b) => a + b means a function with parameters a and b that
+- Arrow functions are a compact(simple) function syntax. (a, b) => a + b means a function with parameters a and b that
  returns a+b.
  Examples:
  const add = (a, b) => a + b;
@@ -160,15 +163,15 @@ const nums = [1,2,3];
 
 
 >- 11. Which of the following are true? (mark all that are true about the DOM)
--  The DOM represents the HTML document as a tree of objects. 
+-  The DOM represents the HTML document as a tree of objects. (HTML => body => h1 etc)
 - You can use JavaScript to access and modify
  DOM elements. 
-- Each HTML element is a node in the DOM
+- Each HTML element is a node in the DOM(node is div, p so HTML made by node)
 
 
 
 >- 12. By default, the HTML span element has a default CSS display property value of: 
--  inline
+-  inline(does not start new line)
 
 
 >- 13. How would you use CSS to change all the div elements to have a background color of red?
@@ -186,11 +189,11 @@ const nums = [1,2,3];
  &lt;/a&gt;
  Folder scheme example:
  project/
-  index.html
-  images/
-    logo.png
-  css/
-    styles.css
+    index.html
+    images/
+      logo.png
+    css/
+      styles.css
 ※ If using a framework, the image may need to be in a 'public' or 'static' folder so it is served directly.    
 
 
@@ -246,16 +249,26 @@ const nums = [1,2,3];
 
 >- 21. What is valid javascript syntax for if, else, for, while, switch statements?
 
-- if (x > 5) { ... } else { ... } for (...) { ... } while (...) { ... } switch (x) { case 1: ...; break; default: ... }
+- if (x > 5) { ... } else { ... } for (...) { ... } while (...) { ... } 
+
+switch (x) { 
+  case "apple":
+  console.log("You choose apple");
+  break; 
+  default: 
+  console.log("unknown fruits") 
+  }
 
 
 >- 22. What is the correct syntax for creating a javascript object?
 -  const person = { name: "John", age: 30 };
 
 
->- 23. Is it possible to add new properties to javascript objects?
+>- 23. Is it possible to add new properties(keys) to javascript objects?
 -  Yes. Example: person.city = "Provo"
-
+person = {name: "John", age: 30, city: "Provo"}
+ 
+※name and age are key (properties) and John is value
 
 >- 24. If you want to include JavaScript on an HTML page, which tag do you use?
 - <script src="script.js"></script>
@@ -282,19 +295,20 @@ const nums = [1,2,3];
 
 >- 27. What does the console command chmod, pwd, cd, ls, vim, nano, mkdir, mv, rm, man, ssh, ps, wget, sudo  do?
 
--  chmod - change permissions, 
-- pwd - print working directory, 
-- cd - change directory, 
+-  chmod - change permissions, so others can read and execute 
+- pwd - print working directory, current directory path
+- cd - change directory, moves to different folder
 - ls - list files, 
 - vim/nano - text editors, 
-- mkdir - make directory,
+- mkdir - make directory, create new folder not file
 - mv - move/rename, 
+rename:  mv old.txt new.txt  move: mv file.txt/home/user/documents
 - rm - remove, 
-- man - manual, 
-- ssh - remote shell, 
-- ps - processes, 
+- man - manual, display all options and usage of the ls command
+- ssh - remote shell, connect remote server over the network
+- ps - processes, lists the runnning processes on your system
 - wget - download files, 
-- sudo - run as admin
+- sudo - run as admin, executes a command with superuser privileges
 
 
 
@@ -305,6 +319,9 @@ const nums = [1,2,3];
 >- 29. Which of the following is true when the >-la parameter is specified for the ls console command?
 
 -  ls -la lists all files (including hidden) in long format
+
+-l is long format(shows detailed information for each file)
+-a is all files including hidden files
 
 >- 30. Which of the following is true for the domain name banana.fruit.bozo.click, >- >- which is the top level domain, which is a subdomain, which is a root domain?
 
@@ -322,6 +339,10 @@ math.byu.edu    byu.edu(root)   math(subdomain) edu(TLD)
 
 >- 33. Port 443, 80, 22 is reserved for which protocol?
 -  443 -> HTTPS, 80 -> HTTP, 22 -> SSH
+
+HTTP	80	Standard web traffic	Unencrypted (not secure)
+HTTPS	443	Encrypted web traffic	Secure (uses SSL/TLS)
+SSH	22	Remote server access	Secure (encrypted shell)
 
 
 >- 34. What will the following code using Promises output when executed?
