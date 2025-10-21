@@ -6,7 +6,8 @@ const navigate = useNavigate();
 const handleSave = () =>{
     const caloriesGoal = calculateTDEE();
     const proteinGoal = calculateProtein();
-    const carbsGoal = calcu
+    const carbsGoal = calculateCarbs();
+    const fat
 }
 
 
