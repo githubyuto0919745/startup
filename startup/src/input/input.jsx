@@ -2,23 +2,96 @@ import React, {useState} from 'react';
 import './input.css';
 
 
+
 export default function Input(){
     
 
     const [search, setSearch] = useState('');
-    const [result, setResult] = useState('');
-    const [intakelist, setIntakelist] = useState('');
+    const [result, setResult] = useState(null);
+    const [intakelist, setIntakelist] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
 
-    const handleAdd = (food) =>{
+    
         
-        const calories = food.calories * quantity;
-        const protein = food.protein * quantity;
-        const carbs = food.carbs * quantity;
-        const fat = food.fat * quantity;
-    }
+        const handleSearch = async (e) =>{
+        e.preventDefault();
+        
+            // const response = await fetch();
+            // const data = await response.json;
+            
+            // if(data.foods && data.foods.length >0){
+            //     const food = data.foods[0];
+            //     setResult({
+            //         name: food.label,
+            //         calories: food.nutrients.ENERC_KCAK || 0,
+            //         protein: food.nutrients.PROCNT || 0,
+            //         carbs: food.nutrients.CHOCDF || 0,
+            //         fat: food.nutrients.FAT || 0,
+            //     });
+            // } else{
+            //     setResult(null);
+            // }
 
+            const Food ={
+                name: search || "Apple",
+                calories: 95,
+                protein: 0.5,
+                carbs: 25,
+                fat: 0.3,
+                name: search || "Orange",
+                calories: 95,
+                protein: 0.5,
+                carbs: 25,
+                fat: 0.3,
+                name: search || "Grape",
+                calories: 95,
+                protein: 0.5,
+                carbs: 25,
+                fat: 0.3,
+            };
+            setResult(Food);
+            
+
+
+
+        };
+     
+
+    
+
+
+    const handleAdd = () => {
+        if (!result) return;
+        
+        const item = {
+            name: result.name,
+            calories: result.calories * quantity,
+            protein: result.protein * quantity,
+            carbs: result.carbs * quantity,
+            fat: result.fat * quantity,
+        };
+
+        setIntakelist([...intakelist, item]);
+        setQuantity(1); 
+        setSearch('');
+        setResult(null); 
+    };
+
+    const totals  = intakelist.reduce(
+        (acc, item) => ({
+            calories: acc.calories + item.calories,
+            protein: acc.protein + item.protein,
+            carbs: acc.carbs + item.carbs,
+            fat: acc.fat + item.fat
+        }),
+        {calories: 0, protein: 0, carbs: 0, fat: 0,}
+    );
+
+    const handleDelete = (remove) =>{
+        setIntakelist(intakelist.filter((_,index) => index !== remove));
+
+    }
     
     
     
@@ -29,67 +102,60 @@ export default function Input(){
             <div className="foodselect">
             <h1>Input Intake</h1>
                 
-
-                <form onSubmit= {searchHandle}>
+                <form onSubmit= {handleSearch}>
                     <input 
                     type="text" 
                     value={search} 
-                    placeholder="Search food..." />
-
-                    <button type="submit"> Search</button>
+                    placeholder="Search food..." 
+                    onChange={(e) => setSearch(e.target.value)}    
+                />
+                <button type="submit"> Search</button>
                 </form>
-                <label>
-                    Quantity:
-                    <input>
-                    value = {quantity};
-                    </input>
-                </label>
 
-                <table id="intaketable">
-                    <thead>
-                        <tr>
-                            <th>Food</th>
-                            <th>Calories</th>
-                            <th>Protein</th>
-                            <th>Carbs</th>
-                            <th>Fat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Apple</td>
-                            <td>65 kcal</td>
-                            <td>0 g</td>
-                            <td>22 g</td>
-                            <td>0 g</td>
-                        </tr>
-                        <tr>
-                            <td>Orange </td>
-                            <td>82 kcal</td>
-                            <td>1 g</td>
-                            <td>32 g</td>
-                            <td>1 g</td>
-                        </tr>
-                    </tbody>
-                </table>
+                {result &&(
+                <div className = "result">
+                    <h3>{result.name}</h3>
+                    <p>
+                        Calories: {result.calories} kcal |
+                        Protein: {result.protein} g |
+                        Carbs: {result.carbs} g |
+                        Fat: {result.fat} g
+                    </p>
+
+                    <label>Quantity
+                    <input
+                    type = "number"
+                    value = {quantity}
+                    onChange = {(e) => setQuantity(Number(e.target.value))}
+                    min="1"
+                    />    
+                    </label>
+                    <button type = "button" onClick ={handleAdd}>Add</button>
+                    
+                </div>
+                )}
                 
-                <button id="add">Add</button>
+               
                 
             
             </div>
 
             <div className ="intakelist">
                 <h2>Intake List</h2>
-                    <ul id="intakelist">
-                        <li> <strong>Apple</strong> 65 kcal</li>
-                        <li> <strong>Orange</strong> 65 kcal</li>
-                        <li> <strong>Graps</strong> 65 kcal</li>
-                        <li> <strong>Peach</strong> 65 kcal</li>
-                        <li> <strong>Peach</strong> 65 kcal</li>
-                        <li> <strong>Peach</strong> 65 kcal</li>
+                    <ul>
+                        {intakelist.map((item, index)=> (
+                            <li key = {index}>
+                                {item.name} - {item.calories} kcal | {item.protein} g | {item.carbs} g |{' '}
+                                {item.fat} g
+                                <button type="button" onClick={() =>handleDelete(index)}>Delete</button>
+                            </li>
 
-                        <li> <em><strong>Total:</strong> 160kcal 50g 40g 3g </em> </li>
+                        ))}
                     </ul>
+                     <p>
+                        <strong>Total:</strong> {totals.calories} kcal | {totals.protein} g | {totals.carbs} g | {totals.fat} g
+                        <string>Goal: </string>
+                    </p>
 
             </div>    
         </div>
@@ -97,14 +163,5 @@ export default function Input(){
         
 
     </main>
-
-    
-    
-
-    
-    
-    
-
     );
-
 }

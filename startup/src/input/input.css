@@ -114,25 +114,8 @@ label[for="category"]{
     margin-bottom:20px;
     
 }
-#intaketable{
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    height:80px;
-    /* width:calc(100vw - 450px); */
-    width: 100%;
-    table-layout:fixed;
-    word-wrap:break-word;
-    max-width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 
-}
-#intaketable th, #intaketable td{
-    border:1px solid black;
-    padding:10px;
-    text-align: center;
 
-}
 #add{
   align-self: flex-end;
   display:block;
@@ -148,10 +131,11 @@ label[for="category"]{
     background-color: rgb(180, 175, 175);
 }
 
-#intakelist{
+.intakelist{
     list-style:none;
     padding:0;
     gap:10px;
+    height:400px;
     display: flex;
     flex-direction: column;
     background-color: rgb(216, 248, 237);
@@ -238,6 +222,6 @@ footer{
 } 
 
 .intakelist{
-    background-color: red;
+    background-color: rgb(239, 168, 168);
     
 }

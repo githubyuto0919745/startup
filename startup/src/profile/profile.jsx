@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
 import './profile.css';
+import {useNavigate} from "react-router-dom";
+
+const navigate = useNavigate();
+const handleSave = () =>{
+    const caloriesGoal = calculateTDEE();
+    const proteinGoal = calculateProtein();
+    const carbsGoal = calcu
+}
 
 
 export default function Profile(){
@@ -154,7 +162,7 @@ export default function Profile(){
                                 { label: "5'11\"", value: 5 + 11/12 },
                                 { label: "6'0\"", value: 6 },
                             ];
-             
+    
             setHOptions(feetOptions);
             setCalHeight(feetOptions[0].value);
         }
