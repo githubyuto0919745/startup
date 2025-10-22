@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './graph.css';
 import {BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend} from "recharts";
 
 
 export default function Graph(){
 
-        
+    const [charData, setCharData] = useState([]);
+    const [hasData, setHasData] = useState(false);
+ 
+    useEffect(() => {
 const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
 const intakeData = JSON.parse(localStorage.getItem("intakeData") || "{}");
 
- const charData = [
+const  data = [
     {
         name: "Calories",
         profile: Number(profileData.tdee) || 0,
@@ -31,9 +34,11 @@ const intakeData = JSON.parse(localStorage.getItem("intakeData") || "{}");
       profile: Number(profileData.fats) || 0,
       intake: Number(intakeData.fat) || 0,
     },
-];
+    ];
+    setCharData(data);
+    setHasData(data.some(d => d.profile > 0 || d.intake > 0));
+},[]);
 
-const hasData = charData.some(d => d.profile > 0 || d.intake > 0);
 
     return(
 
