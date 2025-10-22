@@ -112,8 +112,10 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **All functionality implemented or mocked out** - I added a lot of functional implement like auto caluclating, saving, leading to next page etc.  
-- [x] **Hooks** - I used useState, useEffect, and useNavigate
+- [x] **All functionality implemented or mocked out** -I implemented four different unit conversions to calculate BMI and TDEE, then used these values to display the Recommended Daily Allowance (RDA) for protein, carbohydrates, and fats.
+For the search feature, I implemented functionality to display data results, allow users to select food items and specify quantities, and save this information to the intake list. The system then calculates and displays the total calories, protein, carbohydrates, and fats. Finally, the app generates graphs based on both the user’s profile and intake data for visual analysis.
+
+- [x] **Hooks** -I used the React hooks useState, useEffect, and useNavigate. These were mainly used to manage user input, update data automatically, and navigate between pages.
 
 ## 🚀 Service deliverable
 
