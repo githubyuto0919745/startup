@@ -2,38 +2,54 @@ import React, {useState} from 'react';
 import './profile.css';
 import {useNavigate} from "react-router-dom";
 
-const navigate = useNavigate();
-const handleSave = () =>{
-    const caloriesGoal = calculateTDEE();
-    const proteinGoal = calculateProtein();
-    const carbsGoal = calculateCarbs();
-    const fat
-}
+// import Input from '../input/input';
+
+// export const getUserGoals = (profile) =>{
+//     return {
+//         calories: calculateCalories(profile),
+//         protein: calculateProtein(profile),
+//         carbs: calculateCarbs(profile),
+//         fat: calculateFats(profile)
+//     };
+// };
 
 
 export default function Profile(){
     const [gender, getGender] = useState("select gender");
     const [icon, getIcon] = useState("./image/personicon.webp");
-
-    const [age, setAge] = useState(0);
-
+    const [age, setAge] = useState(20);
     const [heightUnits, setHUnits] = useState("cm");
-
     const initialHOptions = [150, 155, 160, 165, 170, 175, 180, 185, 190, 195].map(h => ({
                 label: `${h} cm`,
                 value: h
         }));
     const [heightOptions, setHOptions] = useState(initialHOptions)
-    const [calheight, setCalHeight] = useState(0);
+    const [calheight, setCalHeight] = useState(initialHOptions[0].value);
 
     const [weightUnits, setWUnits] = useState("kg");
     const [weightOptions, setWOptions] = useState([30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105]);
-    const [calweight, setCalWeight] = useState(0);
+    const [calweight, setCalWeight] = useState(weightOptions[0]);
 
-    const [activity, setActivity] = useState("");
-    const [goal, setGoal] = useState("");
+    const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
+    const [goal, setGoal] = useState("Maintain");
+    const navigate = useNavigate();
     
     
+    const handleSave = () =>{
+        const data = {
+            gender, 
+            age, 
+            height: calheight,
+            weight: calweight,
+            tdee: calculateTDEE(),
+            protein: calculateProtein(),
+            carbs: calculateCarbs(),
+            fats: calculateFats(),
+            bmi: calculateBMI(),
+        };
+        
+        navigate("/graph", {state: data});
+    };
 
     const calculateFats = () =>{
         if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
@@ -61,7 +77,7 @@ export default function Profile(){
          let multiplier = 1.55;
          if(goal ==="Lose Weight") multiplier = 1.8;
          else if(goal === "Gain Muscle") multiplier = 2;
-         return Math.round(weightKg * multiplier);
+         return Math.round(weightKg * multiplier) || 0;
     }
 
     const calculateTDEE = () =>{
@@ -200,11 +216,25 @@ export default function Profile(){
         }
     };
 
+    //  const profile = {
+    //                     gender,
+    //                     age,
+    //                     heightUnits,
+    //                     calheight,
+    //                     weightUnits,
+    //                     calweight,
+    //                     activity,
+    //                     goal,
+    //                     };
+   
+
+
 
     return(
         <main>
             <div className = "main-profile">
-        
+
+            {/* <Input profile={profile} /> */}
             <img id = "icon" src={icon} alt = "personicon" width="100" />
                 <div className="profile">  
                     <div className="profile-section">
@@ -303,18 +333,18 @@ export default function Profile(){
                         <div className="RDA">
                             <div className = "protein">
                                 <label> Protein: </label>
-                                <span> {calculateProtein()} g</span>
+                                <span> {Math.round(calculateProtein())} g</span>
                             </div>
                             <div className = "carbs">
                                 <label> Carbs: </label>
-                                <span> {calculateCarbs()} g</span>
+                                <span> {Math.round(calculateCarbs())} g</span>
                             </div>
                             <div className = "fats">
                                 <label> Fats: </label>
-                                <span> {calculateFats()} g</span>
+                                <span> {Math.round(calculateFats())} g</span>
                             </div>
 
-                            <button>Save</button>
+                            <button onClick = {handleSave}>Save</button>
 
                         </div>
 

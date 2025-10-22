@@ -1,17 +1,43 @@
 import React, {useState} from 'react';
 import './input.css';
+// import {getUserGoals} from '../profile/profile';
+
+
+
+
+
 
 
 
 export default function Input(){
     
+    // const [goals, setGoals] = useState({
+    //     calories: 0,
+    //     protein: 0,
+    //     carbs: 0,
+    //     fat: 0,
+    // })
+
+    // useEffect (() =>{
+    //     if (
+    //         profile.age > 0 &&
+    //         profile.calheight > 0 &&
+    //         profile.calweight > 0 &&
+    //         profile.activity &&
+    //         profile.goal){
+    //     setGoals(getUserGoals (profile));
+    //     }else{
+    //         setGoals({ calories: 0, protein: 0, carbs: 0, fat: 0 });
+    //     }            
+    // },[profile]);
+
 
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(null);
     const [intakelist, setIntakelist] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
-
+       
     
         
         const handleSearch = async (e) =>{
@@ -66,10 +92,10 @@ export default function Input(){
         
         const item = {
             name: result.name,
-            calories: result.calories * quantity,
-            protein: result.protein * quantity,
-            carbs: result.carbs * quantity,
-            fat: result.fat * quantity,
+            calories: Math.round(result.calories * quantity),
+            protein: Math.round(result.protein * quantity),
+            carbs: Math.round(result.carbs * quantity),
+            fat: Math.round(result.fat * quantity),
         };
 
         setIntakelist([...intakelist, item]);
@@ -100,7 +126,7 @@ export default function Input(){
     <main>
         <div className="main-input">
             <div className="foodselect">
-            <h1>Input Intake</h1>
+            <h1>Search intaken foods</h1>
                 
                 <form onSubmit= {handleSearch}>
                     <input 
@@ -154,8 +180,10 @@ export default function Input(){
                     </ul>
                      <p>
                         <strong>Total:</strong> {totals.calories} kcal | {totals.protein} g | {totals.carbs} g | {totals.fat} g
-                        <string>Goal: </string>
+                        {/* <string>Goal: </string> {goals.calories} kcal | {goals.protein} g | {goals.carbs} g | {goals.fat} g */}
                     </p>
+
+                    <button type = "button"> Save</button>
 
             </div>    
         </div>
