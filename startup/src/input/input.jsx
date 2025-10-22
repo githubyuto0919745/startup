@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './input.css';
 // import {getUserGoals} from '../profile/profile';
 
@@ -9,7 +9,7 @@ import './input.css';
 
 
 
-export default function Input(){
+export default function Input({profile ={}}){
     
     // const [goals, setGoals] = useState({
     //     calories: 0,
@@ -34,19 +34,23 @@ export default function Input(){
 
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(null);
-    const [intakelist, setIntakelist] = useState([]);
+    const [intakelist, setIntakelist] = useState(profile.intakelist || []);
     const [quantity, setQuantity] = useState(1);
 
-       const handleSave = ()=> {
-            const totalData = {
-                calories: totals.calories,
-                protein: totals.protein,
-                carbs: totals.carbs,
-                fat: totals.fat
-            };
-            localStorage.setItem("intakeData", JSON.stringify(totalData));
-            alert("Intake saved!");
-       }
+    useEffect(() => {
+    localStorage.setItem("intakeData", JSON.stringify(intakelist));
+     }, [intakelist]);
+
+    const handleSave = ()=> {
+        const totalData = {
+            calories: totals.calories,
+            protein: totals.protein,
+            carbs: totals.carbs,
+            fat: totals.fat
+        };
+        localStorage.setItem("intakeData", JSON.stringify(totalData));
+        alert("Intake saved!");
+    }
 
     
         
