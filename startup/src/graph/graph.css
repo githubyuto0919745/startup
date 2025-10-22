@@ -78,6 +78,8 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color:white;
+    background-color: rgb(65, 53, 37);
     
     position:relative;
     margin:120px auto 20px;
@@ -91,34 +93,7 @@ header {
     margin-bottom: 30px;
 }
 
-.chat-board{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position:relative;
-    background-color: rgba(112, 201, 170, 0.9);
-    border-radius: 8px;
-    max-width:500px;
-    width:90%;
-    height:650px;
-    padding:15px;
-    margin:20px auto;
-}
-#textspace{
-    background-color: white;
-    height: 450px;
-    border:1px solid black;
-    border-radius:10px;
-    padding:10px;
-    width:100%;
-    overflow-y:auto;
-    display:flex;
-    flex-direction: column;
-    gap:8px;
-    margin-bottom:50px;
 
-}
 
 
 

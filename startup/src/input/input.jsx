@@ -37,7 +37,17 @@ export default function Input(){
     const [intakelist, setIntakelist] = useState([]);
     const [quantity, setQuantity] = useState(1);
 
-       
+       const handleSave = ()=> {
+            const totalData = {
+                calories: totals.calories,
+                protein: totals.protein,
+                carbs: totals.carbs,
+                fat: totals.fat
+            };
+            localStorage.setItem("intakeData", JSON.stringify(totalData));
+            alert("Intake saved!");
+       }
+
     
         
         const handleSearch = async (e) =>{
@@ -183,7 +193,7 @@ export default function Input(){
                         {/* <string>Goal: </string> {goals.calories} kcal | {goals.protein} g | {goals.carbs} g | {goals.fat} g */}
                     </p>
 
-                    <button type = "button"> Save</button>
+                    <button type = "button" onClick={handleSave}> Save</button>
 
             </div>    
         </div>

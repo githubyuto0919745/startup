@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './profile.css';
-import {useNavigate} from "react-router-dom";
+
 
 // import Input from '../input/input';
 
@@ -32,7 +32,7 @@ export default function Profile(){
 
     const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
     const [goal, setGoal] = useState("Maintain");
-    const navigate = useNavigate();
+    
     
     
     const handleSave = () =>{
@@ -48,7 +48,8 @@ export default function Profile(){
             bmi: calculateBMI(),
         };
         
-        navigate("/graph", {state: data});
+        localStorage.setItem("profileData", JSON.stringify(data));
+        alert("Profile is saved!!");
     };
 
     const calculateFats = () =>{
