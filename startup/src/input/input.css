@@ -88,7 +88,7 @@ header {
 
 
 .foodselect {
-    background-color: rgba(139, 188, 205);
+    background-color: rgb(160, 227, 249);
     width:40%;
     height:600px;
     border-radius: 10px;
@@ -101,22 +101,9 @@ header {
 
 }
 
-label[for="category"]{
-    font-size:30px;
-    padding:10px;
-}
 
 
-#search{
-    display:flex;
-    justify-content: center;
-    gap:10px;
-    margin-bottom:20px;
-    
-}
-
-
-#add{
+.add-btn{
   align-self: flex-end;
   display:block;
   margin:20px 0px 30px 40px;
@@ -127,29 +114,44 @@ label[for="category"]{
   cursor:pointer;
   border-radius: 15px;
 }
-#add:hover{
-    background-color: rgb(180, 175, 175);
+.add-btn:hover{
+    background-color: rgb(199, 210, 200);
 }
 
 .intakelist{
-    list-style:none;
-    padding:0;
-    gap:10px;
-    height:400px;
+    
     display: flex;
     flex-direction: column;
-    background-color: rgb(216, 248, 237);
     max-height:300px;
     width:300px;
     overflow-y:auto;
+    border-radius: 10px;
+    background-color: aqua;
+    
+
 
 
 }
 
-#intakelist li{
-    padding: 8px 12px;
+
+
+.input-btn-container{
+    display:flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top:100px;
+}
+.input-btn{
+    position:absolute;
+    cursor:pointer;
     border-radius: 10px;
-    margin-bottom: 10px;
+    height:40px;
+    width:70px;
+    
+}
+.input-btn:hover{
+    background-color: silver;
+    cursor:pointer;
 }
 
 

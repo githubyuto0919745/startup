@@ -166,7 +166,7 @@ export default function Input(){
                     min="1"
                     />    
                     </label>
-                    <button type = "button" onClick ={handleAdd}>Add</button>
+                    <button className ="add-btn" type = "button" onClick ={handleAdd}>Add</button>
                     
                 </div>
                 )}
@@ -193,8 +193,9 @@ export default function Input(){
                         {/* <string>Goal: </string> {goals.calories} kcal | {goals.protein} g | {goals.carbs} g | {goals.fat} g */}
                     </p>
 
-                    <button type = "button" onClick={handleSave}> Save</button>
-
+                    <div className="input-btn-container">
+                    <button className="input-btn"type = "button" onClick={handleSave}> Save</button>
+                    </div>
             </div>    
         </div>
                 

@@ -322,16 +322,13 @@ export default function Profile(){
                                 <option value ="Gain Muscle">Gain Muscle</option>
                             </select>
                         
-                        </div>
-
-                        <div className = "tdee">
-                            <label> TDEE:  </label>
-                            <span>   {calculateTDEE() }  kcal  </span>
-                        </div>
-
-                        
+                        </div>    
                         
                         <div className="RDA">
+                            <div className = "tdee">
+                            <label> TDEE:  </label>
+                            <span>   {calculateTDEE() }  kcal  </span>
+                            </div>
                             <div className = "protein">
                                 <label> Protein: </label>
                                 <span> {Math.round(calculateProtein())} g</span>
@@ -344,9 +341,9 @@ export default function Profile(){
                                 <label> Fats: </label>
                                 <span> {Math.round(calculateFats())} g</span>
                             </div>
-
-                            <button onClick = {handleSave}>Save</button>
-
+                        </div>
+                        <div className="profile-btn-container">
+                        <button className = "profile-btn" onClick = {handleSave}>Save</button>
                         </div>
 
                        
