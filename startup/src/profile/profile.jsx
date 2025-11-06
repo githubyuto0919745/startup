@@ -32,8 +32,23 @@ export default function Profile(){
 
     const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
     const [goal, setGoal] = useState("Maintain");
-    
-    
+//     const [data, setData] = useState(null);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     fetch('/api/profile/profile', { credentials: 'include' })
+//       .then(res => {
+//         if (!res.ok) throw new Error('Unauthorized');
+//         return res.json();
+//       })
+//       .then(setData)
+//       .catch(err => setError(err.message));
+//   }, []);
+
+//     if (error) return <p>Error: {error}</p>;
+//     if (!data) return <p>Loading...</p>;
+        
+        
     
     const handleSave = () =>{
         const data = {
@@ -234,7 +249,9 @@ export default function Profile(){
     return(
         <main>
             <div className = "main-profile">
-
+            <h1>Profile</h1>
+            <p>Email: {data.email}</p>
+            <p>{data.msg}</p>
             {/* <Input profile={profile} /> */}
             <img id = "icon" src={icon} alt = "personicon" width="100" />
                 <div className="profile">  

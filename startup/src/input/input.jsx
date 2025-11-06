@@ -37,9 +37,9 @@ export default function Input({profile ={}}){
     const [intakelist, setIntakelist] = useState(profile.intakelist || []);
     const [quantity, setQuantity] = useState(1);
 
-    useEffect(() => {
-    localStorage.setItem("intakeData", JSON.stringify(intakelist));
-     }, [intakelist]);
+    // useEffect(() => {
+    // localStorage.setItem("intakeData", JSON.stringify(intakelist));
+    //  }, [intakelist]);
 
     const handleSave = ()=> {
         const totalData = {

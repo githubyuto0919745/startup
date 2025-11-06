@@ -76,3 +76,12 @@ const verifyAuth = async (req, res, next) =>{
         res.status(401).send({msg: 'Unauthorized'});
     }
 };
+
+// apiRouter.get('/profile/profile', verifyAuth, (req,res) =>{
+//     const user = users.find(u=> u.token ===req.cookies[authCookieName]);
+//     res.send({email: user.email, msg: 'This is a restricted profile page'});
+// });
+
+
+
+
