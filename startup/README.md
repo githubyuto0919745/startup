@@ -121,12 +121,12 @@ For the search feature, I implemented functionality to display data results, all
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** -I wrote backend code using Express with endpoints for signup, login, and logout.
+- [x] **Static middleware for frontend** -I included express in the backend to serve frontend files.
+- [x] **Calls to third party endpoints** - 
+- [x] **Backend service endpoints** - Endpoints for registration, login, and logout are implemented.
+- [x] **Frontend calls service endpoints** - React frontend makes fetch requests to the backend endpoints.
+- [x] **Supports registration, login, logout, and restricted endpoint** - The frontend and backend handle registration, login, and logout logic.
 
 
 ## 🚀 DB deliverable
