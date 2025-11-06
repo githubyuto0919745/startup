@@ -41,62 +41,99 @@ export default function Input({profile ={}}){
     // localStorage.setItem("intakeData", JSON.stringify(intakelist));
     //  }, [intakelist]);
 
-    const handleSave = ()=> {
-        const totalData = {
-            calories: totals.calories,
-            protein: totals.protein,
-            carbs: totals.carbs,
-            fat: totals.fat
+    useEffect(() => {
+        
+        const fetchDiet = async () =>{
+            try{
+                const response =await fetch ('/api/input/diet', {credentials: 'include' });
+                if (!response.ok) throw new Error('Unauthorized');
+                const data = await response.json();
+                setIntakelist(data);
+            }catch (err){
+                console.log('Error loading diet:', err.message);
+            }
         };
-        localStorage.setItem("intakeData", JSON.stringify(totalData));
-        alert("Intake saved!");
-    }
+        fetchDiet();
+    },[]);
+
+    const handleSave = async ()=> {
+        try{
+            const totalData = {
+                calories: totals.calories,
+                protein: totals.protein,
+                carbs: totals.carbs,
+                fat: totals.fat
+            
+            };
+        const response = await fetch ('/api/input/diet', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(totalData),
+        });
+        
+        if(response.ok){
+            const newEntry = await response.json();
+            setIntakelist([...intakelist, newEntry]);
+            alert('Diet saved to server! ');
+        } else {
+            alert('Diet saved to server!');
+        }
+        }catch (err) {
+            console.error('Save failed:', err);
+        }
+    };
 
     
         
         const handleSearch = async (e) =>{
         e.preventDefault();
         
-            // const response = await fetch();
-            // const data = await response.json;
+        try{
+            const response = await fetch(`/api/input/diet/search?q=${search}`);
+            const data = await response.json;
             
-            // if(data.foods && data.foods.length >0){
-            //     const food = data.foods[0];
-            //     setResult({
-            //         name: food.label,
-            //         calories: food.nutrients.ENERC_KCAK || 0,
-            //         protein: food.nutrients.PROCNT || 0,
-            //         carbs: food.nutrients.CHOCDF || 0,
-            //         fat: food.nutrients.FAT || 0,
-            //     });
-            // } else{
-            //     setResult(null);
-            // }
+            if(data.foods && data.foods.length >0){
+                const food = data.foods[0];
+                setResult({
+                    name: food.label,
+                    calories: food.nutrients.ENERC_KCAK || 0,
+                    protein: food.nutrients.PROCNT || 0,
+                    carbs: food.nutrients.CHOCDF || 0,
+                    fat: food.nutrients.FAT || 0,
+                });
+             } else{
+                setResult(null);
+                alert('No food found!');
+            }
+        }catch(err) {
+            console.error('Error fetching food:', err);
+        }
+    };
 
-            const Food ={
-                name: search || "Apple",
-                calories: 95,
-                protein: 0.5,
-                carbs: 25,
-                fat: 0.3,
-                name: search || "Orange",
-                calories: 95,
-                protein: 0.5,
-                carbs: 25,
-                fat: 0.3,
-                name: search || "Grape",
-                calories: 95,
-                protein: 0.5,
-                carbs: 25,
-                fat: 0.3,
-            };
-            setResult(Food);
+            // const Food ={
+            //     name: search || "Apple",
+            //     calories: 95,
+            //     protein: 0.5,
+            //     carbs: 25,
+            //     fat: 0.3,
+            //     name: search || "Orange",
+            //     calories: 95,
+            //     protein: 0.5,
+            //     carbs: 25,
+            //     fat: 0.3,
+            //     name: search || "Grape",
+            //     calories: 95,
+            //     protein: 0.5,
+            //     carbs: 25,
+            //     fat: 0.3,
+            // };
+            // setResult(Food);
             
 
 
 
-        };
-     
+    
 
     
 

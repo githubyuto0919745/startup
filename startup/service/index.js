@@ -7,6 +7,7 @@ const app = express();
 const authCookieName = 'token';
 
 let users = [];
+let diets = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 3000;
 
@@ -77,10 +78,31 @@ const verifyAuth = async (req, res, next) =>{
     }
 };
 
-// apiRouter.get('/profile/profile', verifyAuth, (req,res) =>{
-//     const user = users.find(u=> u.token ===req.cookies[authCookieName]);
-//     res.send({email: user.email, msg: 'This is a restricted profile page'});
-// });
+apiRouter.get('/profile', verifyAuth, (req,res) =>{
+    const user = users.find(u=> u.token ===req.cookies[authCookieName]);
+    res.send({email: user.email, msg: 'This is a restricted profile page'});
+});
+
+
+apiRouter.get('/input/diet', verifyAuth, (req,res) =>{
+    res.send(diets);
+});
+
+apiRouter.post('/input/diet', verifyAuth, (req,res) =>{
+    const {data, food, calories, protein, carbs, fats} = req.body;
+    const newEntry = {
+        id: diets.length + 1,
+        date, 
+        food,
+        calories,
+        protein,
+        carbs,
+        fats
+    };
+    diets.push(newEntry);
+    res.status(201).send(newEntry);
+});
+
 
 
 

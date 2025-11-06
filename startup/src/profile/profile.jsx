@@ -249,10 +249,7 @@ export default function Profile(){
     return(
         <main>
             <div className = "main-profile">
-            <h1>Profile</h1>
-            <p>Email: {data.email}</p>
-            <p>{data.msg}</p>
-            {/* <Input profile={profile} /> */}
+            {/* <h1>Profile</h1> */}
             <img id = "icon" src={icon} alt = "personicon" width="100" />
                 <div className="profile">  
                     <div className="profile-section">
