@@ -11,29 +11,47 @@ export default function Login(){
  const [newPassword, setNewPassword] = useState('');
  const navigate = useNavigate();
 
- const handleLogin = () => {
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '{}');
-
-    if(storedUsers [username] && storedUsers[username] === password){
-        alert('Login successful!!')
-        navigate('/profile');
-        }else {
-            alert('Invalid username or password');
+ const handleLogin = async() => {
+    try{
+        const res = await fetch('/api/auth/login' ,{
+            method:'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify({email: username,password})
+        });
+        if(res.ok){
+            const data = await res.json();
+            alert(`Login successful! Welcome ${data.email}`);
+            navigate('/profile');
+        } else{
+            const err = await res.json();
+            alert(`Login failed: ${err.msg}`);
         }
+    } catch (error){
+        console.error(error);
+        alert('Server error. Please try again.');
     }
-
-
- const handleSignup = () =>{
-    const storedUsers = JSON.parse(localStorage.getItem('users') || '{}');
-
-    if(storedUsers[email]){
-        alert('User already exists');
-        return;
-    }
-    storedUsers[email] = newPassword;
-    localStorage.setItem('users', JSON.stringify(storedUsers));
-    alert('Signup successful!');
  };
+
+ const handleSignup = async() =>{
+    try{
+        const res = await fetch ('/api/auth/create', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify ({email, password:newPassword})
+        });
+        if(res.ok){
+            const data = await res.json();
+            alert(`Signup successful! Welcome ${data.email}`);
+            setEmail('');
+        } else {
+            const err = await res.json();
+            alert (`Signup failed: ${err.msg}`);
+        }
+    } catch (error){
+        console.error(error);
+        alert('Server error. Please try again. ');
+    };
+ }
 
 
     return (
@@ -45,10 +63,10 @@ export default function Login(){
              
             <div className= "loginspace">
                 <div className="login">Login  </div> 
-                <label htmlFor = "username"> Username </label>
+                <label htmlFor = "username"> Email </label>
                 <input 
                 id="username" 
-                placeholder="username"
+                placeholder="you@example.com"
                 value = {username}
                 onChange = {(e) => setUsername(e.target.value)} 
                 />

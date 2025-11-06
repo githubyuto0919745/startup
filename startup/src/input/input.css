@@ -88,7 +88,7 @@ header {
 
 
 .foodselect {
-    background-color: rgb(160, 227, 249);
+    background-color: rgb(22, 190, 246);
     width:40%;
     height:600px;
     border-radius: 10px;
@@ -118,6 +118,7 @@ header {
     background-color: rgb(199, 210, 200);
 }
 
+
 .intakelist{
     
     display: flex;
@@ -126,13 +127,13 @@ header {
     width:300px;
     overflow-y:auto;
     border-radius: 10px;
-    background-color: aqua;
+    background-color: white !important;
+    
     
 
 
 
 }
-
 
 
 .input-btn-container{
