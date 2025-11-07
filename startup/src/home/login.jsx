@@ -20,7 +20,9 @@ export default function Login(){
         });
         if(res.ok){
             const data = await res.json();
+            localStorage.setItem('token', data.token);
             alert(`Login successful! Welcome ${data.email}`);
+            setAuthState(AuthState.Authenticated);
             navigate('/profile');
         } else{
             const err = await res.json();
@@ -34,14 +36,16 @@ export default function Login(){
 
  const handleSignup = async() =>{
     try{
-        const res = await fetch ('/api/auth/create', {
+        const res = await fetch ('/api/auth/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify ({email, password:newPassword})
         });
         if(res.ok){
             const data = await res.json();
+            localStorage.setItem('token', data.token);
             alert(`Signup successful! Welcome ${data.email}`);
+            setAuthState(AuthState.Authenticated);
             setEmail('');
         } else {
             const err = await res.json();

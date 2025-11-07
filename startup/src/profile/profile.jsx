@@ -1,17 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './profile.css';
+import {useNavigate} from 'react-router-dom';
 
-
-// import Input from '../input/input';
-
-// export const getUserGoals = (profile) =>{
-//     return {
-//         calories: calculateCalories(profile),
-//         protein: calculateProtein(profile),
-//         carbs: calculateCarbs(profile),
-//         fat: calculateFats(profile)
-//     };
-// };
 
 
 export default function Profile(){
@@ -32,23 +22,28 @@ export default function Profile(){
 
     const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
     const [goal, setGoal] = useState("Maintain");
-//     const [data, setData] = useState(null);
-//   const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-//   useEffect(() => {
-//     fetch('/api/profile/profile', { credentials: 'include' })
-//       .then(res => {
-//         if (!res.ok) throw new Error('Unauthorized');
-//         return res.json();
-//       })
-//       .then(setData)
-//       .catch(err => setError(err.message));
-//   }, []);
 
-//     if (error) return <p>Error: {error}</p>;
-//     if (!data) return <p>Loading...</p>;
-        
-        
+    useEffect(() => {
+
+        const fetchProfile = async() =>{
+            try {
+                const response = await fetch ('/api/profile', {credentials: 'include'});
+                if(!response.ok){
+                    navigate('/login');
+                    throw new Error('Unauthorized');
+                }
+
+            }catch (err){ 
+                console.log('Error loading diet:', err.message);
+
+            }
+    };
+    fetchProfile();
+},[]);
+            
+            
     
     const handleSave = () =>{
         const data = {

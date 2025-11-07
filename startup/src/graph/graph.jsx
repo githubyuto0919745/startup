@@ -1,42 +1,58 @@
 import React, {useState, useEffect} from 'react';
 import './graph.css';
 import {BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend} from "recharts";
-
+import {useNavigate} from 'react-router-dom';
 
 export default function Graph(){
 
     const [charData, setCharData] = useState([]);
     const [hasData, setHasData] = useState(false);
+    const navigate = useNavigate();
  
     useEffect(() => {
-const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
-const intakeData = JSON.parse(localStorage.getItem("intakeData") || "{}");
+        const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
+        const intakeData = JSON.parse(localStorage.getItem("intakeData") || "{}");
 
-const  data = [
-    {
-        name: "Calories",
-        profile: Number(profileData.tdee) || 0,
-        intake: Number(intakeData.calories) || 0,
+        const fetchGraph = async() =>{
+            try{
+                const response = await fetch ('/api/graph', {credentials: 'include'});
+                if(!response.ok){
+                    navigate('/login');
+                    throw new Error('UNauthorized');
+                }
 
-    },
-    {
-      name: "Protein",
-      profile: Number(profileData.protein) || 0,
-      intake: Number(intakeData.protein) || 0,
-    },
-    {
-      name: "Carbs",
-      profile: Number(profileData.carbs) || 0,
-      intake: Number(intakeData.carbs) || 0,
-    },
-    {
-      name: "Fats",
-      profile: Number(profileData.fats) || 0,
-      intake: Number(intakeData.fat) || 0,
-    },
-    ];
-    setCharData(data);
-    setHasData(data.some(d => d.profile > 0 || d.intake > 0));
+            }catch (err){
+                console.log('Error loading diet:', err.message);
+            }
+        };
+        fetchGraph();
+
+
+        const  data = [
+            {
+                name: "Calories",
+                profile: Number(profileData.tdee) || 0,
+                intake: Number(intakeData.calories) || 0,
+
+            },
+            {
+            name: "Protein",
+            profile: Number(profileData.protein) || 0,
+            intake: Number(intakeData.protein) || 0,
+            },
+            {
+            name: "Carbs",
+            profile: Number(profileData.carbs) || 0,
+            intake: Number(intakeData.carbs) || 0,
+            },
+            {
+            name: "Fats",
+            profile: Number(profileData.fats) || 0,
+            intake: Number(intakeData.fat) || 0,
+            },
+            ];
+            setCharData(data);
+            setHasData(data.some(d => d.profile > 0 || d.intake > 0));
 },[]);
 
 

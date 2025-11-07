@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
@@ -6,8 +6,21 @@ import Login from "./home/login" ;
 import Profile from "./profile/profile";
 import Input from "./input/input";
 import Graph from "./graph/graph";
+import {AuthState} from "./home/authState";
 
-export default function App(){
+
+export default function App() {
+    
+    const [authState, setAuthState] = useState(AuthState.Unauthenticated); 
+     useEffect(() => {
+        const token = localStorage.getItem('token'); // or email if you stored it
+        if(token){
+            setAuthState(AuthState.Authenticated);
+        } else {
+            setAuthState(AuthState.Unauthenticated);
+        }
+    }, []);
+    
     return(
     <BrowserRouter>
     <div>
@@ -18,9 +31,18 @@ export default function App(){
             </h1>
             <nav className="navigator">
                 <NavLink className = "loginlink" to="/">Login </NavLink>
-                <NavLink className ="profilelink" to="/profile">Profile </NavLink>
-                <NavLink className = "inputlink" to="/input">Input </NavLink>
-                <NavLink className ="graphlink" to="/graph">Graph </NavLink>
+                {authState === AuthState.Authenticated &&(
+                    <NavLink className ="profilelink" to="/profile">Profile </NavLink>
+                )}
+
+                {authState === AuthState.Authenticated &&(
+                    <NavLink className = "inputlink" to="/input">Input </NavLink>
+                )}
+               
+                 {authState === AuthState.Authenticated &&(
+                    <NavLink className ="graphlink" to="/graph">Graph </NavLink>
+                )}
+               
             </nav>
         </header>
 
@@ -29,7 +51,7 @@ export default function App(){
 
 
         <Routes>
-            <Route path="/" element={<Login />}/>
+            <Route path="/" element={<Login setAuthState ={setAuthState} />}/>
             <Route path="/profile" element={<Profile />} />
             <Route path="/input" element={<Input />} />
             <Route path="/graph" element={<Graph />} />

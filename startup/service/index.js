@@ -37,13 +37,14 @@ const setAuthCookie = (res, token) => {
 var apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-apiRouter.post('/auth/create', async (req,res) => {
+apiRouter.post('/auth/signup', async (req,res) => {
     if(await findUser ('email', req.body.email)){
         res.status(409).send({msg: 'Existing user' });
     }else {
         const user = await createUser(req.body.email, req.body.password);
         setAuthCookie(res, user.token);
-        res.send({email:user.email});
+        res.send({email:user.email, token:user.token});
+        
     }
 });
 
@@ -53,7 +54,7 @@ apiRouter.post('/auth/login', async (req,res) =>{
         if(await bcrypt.compare(req.body.password, user.password)){
             user.token = uuid.v4();
             setAuthCookie(res, user.token);
-            res.send({email: user.email});
+            res.send({email: user.email, token: user.token});
             return;
         }
     }
@@ -84,12 +85,12 @@ apiRouter.get('/profile', verifyAuth, (req,res) =>{
 });
 
 
-apiRouter.get('/input/diet', verifyAuth, (req,res) =>{
+apiRouter.get('/input/', verifyAuth, (req,res) =>{
     res.send(diets);
 });
 
-apiRouter.post('/input/diet', verifyAuth, (req,res) =>{
-    const {data, food, calories, protein, carbs, fats} = req.body;
+apiRouter.post('/input/', verifyAuth, (req,res) =>{
+    const {date, food, calories, protein, carbs, fats} = req.body;
     const newEntry = {
         id: diets.length + 1,
         date, 
@@ -101,6 +102,10 @@ apiRouter.post('/input/diet', verifyAuth, (req,res) =>{
     };
     diets.push(newEntry);
     res.status(201).send(newEntry);
+});
+
+apiRouter.get('/graph', verifyAuth,(req,res) =>{
+    res.send(diets);
 });
 
 

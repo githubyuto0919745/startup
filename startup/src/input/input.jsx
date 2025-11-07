@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './input.css';
-// import {getUserGoals} from '../profile/profile';
-
-
+import {useNavigate} from 'react-router-dom';
 
 
 
@@ -11,42 +9,26 @@ import './input.css';
 
 export default function Input({profile ={}}){
     
-    // const [goals, setGoals] = useState({
-    //     calories: 0,
-    //     protein: 0,
-    //     carbs: 0,
-    //     fat: 0,
-    // })
-
-    // useEffect (() =>{
-    //     if (
-    //         profile.age > 0 &&
-    //         profile.calheight > 0 &&
-    //         profile.calweight > 0 &&
-    //         profile.activity &&
-    //         profile.goal){
-    //     setGoals(getUserGoals (profile));
-    //     }else{
-    //         setGoals({ calories: 0, protein: 0, carbs: 0, fat: 0 });
-    //     }            
-    // },[profile]);
 
 
     const [search, setSearch] = useState('');
     const [result, setResult] = useState(null);
     const [intakelist, setIntakelist] = useState(profile.intakelist || []);
     const [quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
 
-    // useEffect(() => {
-    // localStorage.setItem("intakeData", JSON.stringify(intakelist));
-    //  }, [intakelist]);
+
 
     useEffect(() => {
         
         const fetchDiet = async () =>{
             try{
-                const response =await fetch ('/api/input/diet', {credentials: 'include' });
-                if (!response.ok) throw new Error('Unauthorized');
+                const response =await fetch ('/api/input', {credentials: 'include' });
+                if (!response.ok) {
+                    navigate('/login');
+                    throw new Error('Unauthorized');
+                }
+
                 const data = await response.json();
                 setIntakelist(data);
             }catch (err){
@@ -55,6 +37,8 @@ export default function Input({profile ={}}){
         };
         fetchDiet();
     },[]);
+
+
 
     const handleSave = async ()=> {
         try{
@@ -65,7 +49,7 @@ export default function Input({profile ={}}){
                 fat: totals.fat
             
             };
-        const response = await fetch ('/api/input/diet', {
+        const response = await fetch ('/api/input', {
             method: 'POST',
             headers: {'Content-Type': 'application/json' },
             credentials: 'include',
