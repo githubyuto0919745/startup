@@ -13,14 +13,17 @@ export default function App() {
     
     const [authState, setAuthState] = useState(AuthState.Unauthenticated); 
      useEffect(() => {
-        const token = localStorage.getItem('token'); // or email if you stored it
-        if(token){
-            setAuthState(AuthState.Authenticated);
-        } else {
-            setAuthState(AuthState.Unauthenticated);
-        }
-    }, []);
-    
+        fetch('/api/profile', { credentials: 'include' })
+      .then(res => {
+        if(res.ok) setAuthState(AuthState.Authenticated);
+        else setAuthState(AuthState.Unauthenticated);
+      })
+      .catch(() => setAuthState(AuthState.Unauthenticated));
+}, []);
+
+      if (authState === null) return <div>Loading...</div>;
+       
+       
     return(
     <BrowserRouter>
     <div>
@@ -32,16 +35,13 @@ export default function App() {
             <nav className="navigator">
                 <NavLink className = "loginlink" to="/">Login </NavLink>
                 {authState === AuthState.Authenticated &&(
+                    <>
                     <NavLink className ="profilelink" to="/profile">Profile </NavLink>
+                    <NavLink className = "inputlink" to="/input">Input </NavLink>
+                    <NavLink className ="graphlink" to="/graph">Graph </NavLink>
+                    </>
                 )}
 
-                {authState === AuthState.Authenticated &&(
-                    <NavLink className = "inputlink" to="/input">Input </NavLink>
-                )}
-               
-                 {authState === AuthState.Authenticated &&(
-                    <NavLink className ="graphlink" to="/graph">Graph </NavLink>
-                )}
                
             </nav>
         </header>
@@ -52,9 +52,14 @@ export default function App() {
 
         <Routes>
             <Route path="/" element={<Login setAuthState ={setAuthState} />}/>
+            {authState === AuthState.State.Authenticated &&(
+                 <>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/input" element={<Input />} />
-            <Route path="/graph" element={<Graph />} />
+            <Route path="/input" element={<Input />}/>
+            <Route path="/graph" element={<Graph />}/>
+            </>
+            )}
+           
             <Route path="*" element ={<NotFound />} />
         </Routes>
        

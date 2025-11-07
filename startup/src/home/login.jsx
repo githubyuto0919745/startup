@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 
 
-export default function Login(){
+export default function Login({setAuthState}){
  const [username, setUsername] = useState('');
  const [password, setPassword] = useState('');
  const [email, setEmail] = useState('');
@@ -16,11 +16,11 @@ export default function Login(){
         const res = await fetch('/api/auth/login' ,{
             method:'POST',
             headers: {'Content-Type' : 'application/json'},
-            body: JSON.stringify({email: username,password})
+            body: JSON.stringify({email: username,password}),
+            credentials: 'include',
         });
         if(res.ok){
             const data = await res.json();
-            localStorage.setItem('token', data.token);
             alert(`Login successful! Welcome ${data.email}`);
             setAuthState(AuthState.Authenticated);
             navigate('/profile');
@@ -39,11 +39,11 @@ export default function Login(){
         const res = await fetch ('/api/auth/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify ({email, password:newPassword})
+            body: JSON.stringify ({email, password:newPassword}),
+            credentials: 'include',
         });
         if(res.ok){
             const data = await res.json();
-            localStorage.setItem('token', data.token);
             alert(`Signup successful! Welcome ${data.email}`);
             setAuthState(AuthState.Authenticated);
             setEmail('');
