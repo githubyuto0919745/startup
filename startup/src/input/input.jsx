@@ -95,25 +95,7 @@ export default function Input({profile ={}}){
         }
     };
 
-            // const Food ={
-            //     name: search || "Apple",
-            //     calories: 95,
-            //     protein: 0.5,
-            //     carbs: 25,
-            //     fat: 0.3,
-            //     name: search || "Orange",
-            //     calories: 95,
-            //     protein: 0.5,
-            //     carbs: 25,
-            //     fat: 0.3,
-            //     name: search || "Grape",
-            //     calories: 95,
-            //     protein: 0.5,
-            //     carbs: 25,
-            //     fat: 0.3,
-            // };
-            // setResult(Food);
-            
+          
 
 
 
