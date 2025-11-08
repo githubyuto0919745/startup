@@ -123,7 +123,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] **Node.js/Express HTTP service** -I wrote backend code using Express with endpoints for signup, login, and logout.
 - [x] **Static middleware for frontend** -I included express in the backend to serve frontend files.
-- [x] **Calls to third party endpoints** - I added email apis, I will add diet apis as well
+- [x] **Calls to third party endpoints** - I added diet apis as well
 - [x] **Backend service endpoints** - Endpoints for registration, login, and logout are implemented.
 - [x] **Frontend calls service endpoints** - React frontend makes fetch requests to the backend endpoints.
 - [x] **Supports registration, login, logout, and restricted endpoint** - The frontend and backend handle registration, login, and logout logic.

@@ -1,4 +1,5 @@
 export const AuthState = {
-    Authenticated: 'authenticated',
-    Unauthenticated: 'unauthenticated'
+  Unknown: 'unknown',
+  Authenticated: 'authenticated',
+  Unauthenticated: 'unauthenticated'
 };

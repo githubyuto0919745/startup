@@ -11,7 +11,7 @@ import {AuthState} from "./home/authState";
 
 export default function App() {
     
-    const [authState, setAuthState] = useState(AuthState.Unauthenticated); 
+    const [authState, setAuthState] = useState(AuthState.Unknown); 
     
     useEffect(() => {
         fetch('/api/profile', { credentials: 'include' })
@@ -20,9 +20,9 @@ export default function App() {
         else setAuthState(AuthState.Unauthenticated);
       })
       .catch(() => setAuthState(AuthState.Unauthenticated));
-}, []);
+    }, []);
 
-    if (authState === null) return <div>Loading...</div>; 
+    if (authState === AuthState.Unknown) return <div>Loading...</div>; 
 
      
        
@@ -60,7 +60,7 @@ return(
             <Route
                 path="/profile" 
                 element={
-                authState === AuthState.Authenticated 
+                authState === AuthState.Authenticated
                     ? <Profile />
                     : <Navigate to="/" replace />
             } 
@@ -70,7 +70,7 @@ return(
                 element={
                 authState === AuthState.Authenticated
                     ? <Input />
-                    : <Navigate to="/" replace/>
+                    : <Navigate to="/" replace />
             } 
             />
             <Route 
@@ -78,7 +78,7 @@ return(
                 element={
                 authState === AuthState.Authenticated 
                     ? <Graph /> 
-                    : <Navigate to="/" replace/>
+                    : <Navigate to="/" replace />
             } 
             />
             <Route path="*" element ={<NotFound />} />

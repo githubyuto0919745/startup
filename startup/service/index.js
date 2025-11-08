@@ -80,16 +80,16 @@ const verifyAuth = async (req, res, next) =>{
     }
 };
 
-apiRouter.get('/profile', verifyAuth, (req,res) =>{
-    res.send({email: user.email, msg: 'This is a restricted profile page'});
+apiRouter.get('/profile', verifyAuth, (req ,res) =>{
+    res.send({email: req.user.email});
 });
 
 
-apiRouter.get('/input/', verifyAuth, (req,res) =>{
+apiRouter.get('/input', verifyAuth, (req,res) =>{
     res.send(diets);
 });
 
-apiRouter.post('/input/', verifyAuth, (req,res) =>{
+apiRouter.post('/input', verifyAuth, (req,res) =>{
     const {date, food, calories, protein, carbs, fats} = req.body;
     const newEntry = {
         id: diets.length + 1,
