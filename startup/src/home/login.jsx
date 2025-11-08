@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
 import './login.css';
 import {useNavigate} from 'react-router-dom';
+import {AuthState} from "./authState";
 
 
 
 export default function Login({setAuthState}){
- const [username, setUsername] = useState('');
+ const [username, setusername] = useState('');
  const [password, setPassword] = useState('');
  const [email, setEmail] = useState('');
  const [newPassword, setNewPassword] = useState('');
@@ -39,7 +40,7 @@ export default function Login({setAuthState}){
         const res = await fetch ('/api/auth/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify ({email, password:newPassword}),
+            body: JSON.stringify ({email: email, password:newPassword}),
             credentials: 'include',
         });
         if(res.ok){
@@ -72,7 +73,7 @@ export default function Login({setAuthState}){
                 id="username" 
                 placeholder="you@example.com"
                 value = {username}
-                onChange = {(e) => setUsername(e.target.value)} 
+                onChange = {(e) => setusername(e.target.value)} 
                 />
 
                 <label htmlFor ="password"> Password </label>

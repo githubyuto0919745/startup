@@ -52,13 +52,16 @@ export default function App() {
 
         <Routes>
             <Route path="/" element={<Login setAuthState ={setAuthState} />}/>
-            {authState === AuthState.State.Authenticated &&(
-                 <>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/input" element={<Input />}/>
-            <Route path="/graph" element={<Graph />}/>
-            </>
-            )}
+            {authState === AuthState.Authenticated &&(
+                    <Route path="/profile" element={<Profile />} />
+                 )}
+                 {authState === AuthState.Authenticated &&(
+                    <Route path="/input" element={<Input />}/>
+                 )}
+                 {authState === AuthState.Authenticated &&(
+                    <Route path="/graph" element={<Graph />}/>
+                 )}
+           
            
             <Route path="*" element ={<NotFound />} />
         </Routes>

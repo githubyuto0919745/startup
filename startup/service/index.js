@@ -73,6 +73,7 @@ apiRouter.delete('/auth/logout', async(req,res) =>{
 const verifyAuth = async (req, res, next) =>{
     const user = await findUser('token', req.cookies[authCookieName]);
     if(user){
+        req.user = user;
         next();
     } else{
         res.status(401).send({msg: 'Unauthorized'});
@@ -80,7 +81,6 @@ const verifyAuth = async (req, res, next) =>{
 };
 
 apiRouter.get('/profile', verifyAuth, (req,res) =>{
-    const user = users.find(u=> u.token ===req.cookies[authCookieName]);
     res.send({email: user.email, msg: 'This is a restricted profile page'});
 });
 

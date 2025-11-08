@@ -26,14 +26,16 @@ export default function Input({profile ={}}){
                 const response =await fetch ('/api/input', {credentials: 'include' });
                 if (!response.ok) {
                     navigate('/login');
-                    throw new Error('Unauthorized');
+                    return;
                 }
 
                 const data = await response.json();
                 setIntakelist(data);
             }catch (err){
                 console.log('Error loading diet:', err.message);
+                
             }
+            
         };
         fetchDiet();
     },[]);
