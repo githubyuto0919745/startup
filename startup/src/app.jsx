@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
-import {BrowserRouter, Routes, Route, NavLink} from "react-router-dom";
+import {BrowserRouter, Routes, Route, NavLink, Navigate} from "react-router-dom";
 import Login from "./home/login" ;
 import Profile from "./profile/profile";
 import Input from "./input/input";
@@ -12,7 +12,8 @@ import {AuthState} from "./home/authState";
 export default function App() {
     
     const [authState, setAuthState] = useState(AuthState.Unauthenticated); 
-     useEffect(() => {
+    
+    useEffect(() => {
         fetch('/api/profile', { credentials: 'include' })
       .then(res => {
         if(res.ok) setAuthState(AuthState.Authenticated);
@@ -21,10 +22,13 @@ export default function App() {
       .catch(() => setAuthState(AuthState.Unauthenticated));
 }, []);
 
-      if (authState === null) return <div>Loading...</div>;
+    if (authState === null) return <div>Loading...</div>; 
+
+     
        
        
-    return(
+return(
+        
     <BrowserRouter>
     <div>
         <header>
@@ -51,18 +55,32 @@ export default function App() {
 
 
         <Routes>
-            <Route path="/" element={<Login setAuthState ={setAuthState} />}/>
-            {authState === AuthState.Authenticated &&(
-                    <Route path="/profile" element={<Profile />} />
-                 )}
-                 {authState === AuthState.Authenticated &&(
-                    <Route path="/input" element={<Input />}/>
-                 )}
-                 {authState === AuthState.Authenticated &&(
-                    <Route path="/graph" element={<Graph />}/>
-                 )}
+            <Route path="/" element={<Login setAuthState ={setAuthState} />} />
            
-           
+            <Route
+                path="/profile" 
+                element={
+                authState === AuthState.Authenticated 
+                    ? <Profile />
+                    : <Navigate to="/" replace />
+            } 
+            />
+            <Route 
+                path="/input" 
+                element={
+                authState === AuthState.Authenticated
+                    ? <Input />
+                    : <Navigate to="/" replace/>
+            } 
+            />
+            <Route 
+                path="/graph" 
+                element={
+                authState === AuthState.Authenticated 
+                    ? <Graph /> 
+                    : <Navigate to="/" replace/>
+            } 
+            />
             <Route path="*" element ={<NotFound />} />
         </Routes>
        

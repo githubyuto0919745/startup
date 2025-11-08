@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 
 
 export default function Profile(){
+
     const [gender, getGender] = useState("select gender");
     const [icon, getIcon] = useState("./image/personicon.webp");
     const [age, setAge] = useState(20);
@@ -21,28 +22,7 @@ export default function Profile(){
     const [calweight, setCalWeight] = useState(weightOptions[0]);
 
     const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
-    const [goal, setGoal] = useState("Maintain");
-    const navigate = useNavigate();
-
-
-    useEffect(() => {
-
-        const fetchProfile = async() =>{
-            try {
-                const response = await fetch ('/api/profile', {credentials: 'include'});
-                if(!response.ok){
-                    navigate('/login');
-                    throw new Error('Unauthorized');
-                }
-
-            }catch (err){ 
-                console.log('Error loading diet:', err.message);
-
-            }
-    };
-    fetchProfile();
-},[]);
-            
+    const [goal, setGoal] = useState("Maintain");    
             
     
     const handleSave = () =>{
