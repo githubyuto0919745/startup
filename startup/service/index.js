@@ -104,6 +104,23 @@ apiRouter.post('/input/', verifyAuth, (req,res) =>{
     res.status(201).send(newEntry);
 });
 
+apiRouter.get('/input/diet/search', verifyAuth, async(req,res)=> {
+    const query = req.query.q;
+    if(!query){
+        return res.status(400).json({error:'Missing query parameter'});
+    }
+    try{
+        const apiUrl= `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(query)}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`;
+
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        console.error('Error fetching food data:', err);
+        res.status(500).json({error:'Failed to fetch food data'});
+    }
+});
+
 apiRouter.get('/graph', verifyAuth,(req,res) =>{
     res.send(diets);
 });
