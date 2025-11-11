@@ -2,6 +2,7 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const express = require('express');
 const uuid = require('uuid');
+const path = require('path');
 const app = express();
 
 const authCookieName = 'token';
@@ -9,11 +10,11 @@ const authCookieName = 'token';
 let users = [];
 let diets = [];
 
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static('public'));
+
 
 
 // Find user by key (email or token)
@@ -110,11 +111,16 @@ apiRouter.get('/input/diet/search', verifyAuth, async(req,res)=> {
         return res.status(400).json({error:'Missing query parameter'});
     }
     try{
-        const apiUrl= `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(query)}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`;
+        // const apiUrl= `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(query)}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`;
 
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        res.json(data);
+        // const response = await fetch(apiUrl);
+        // const data = await response.json();
+        // res.json(data);
+
+        res.json({ message: 'API call disabled: set real EDAMAM_APP_ID and EDAMAM_APP_KEY' });
+
+    
+
     } catch (err) {
         console.error('Error fetching food data:', err);
         res.status(500).json({error:'Failed to fetch food data'});
@@ -125,6 +131,10 @@ apiRouter.get('/graph', verifyAuth,(req,res) =>{
     res.send(diets);
 });
 
+
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
 
 app.listen(port,()=>{
     console.log(`listening at http://localhost:${port}`);
