@@ -4,11 +4,9 @@ const express = require('express');
 const uuid = require('uuid');
 const path = require('path');
 const app = express();
+const db = require('./database.js');
 
 const authCookieName = 'token';
-
-let users = [];
-let diets = [];
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -19,14 +17,19 @@ app.use(cookieParser());
 
 // Find user by key (email or token)
 const findUser = async (key, value) => {
-  return users.find(user => user[key] === value);
+    if(key ==='email'){
+        return db.getUser(value);
+    }else if (key ==='token'){
+        return db.getUserByToken(value);
+    }
+    return null;
 };
 
 // Create new user with hashed password
 const createUser = async (email, password) => {
   const hashed = await bcrypt.hash(password, 10);
   const user = { email, password: hashed, token: uuid.v4() };
-  users.push(user);
+  await db.addUser(user);
   return user;
 };
 
@@ -50,29 +53,32 @@ apiRouter.post('/auth/signup', async (req,res) => {
 });
 
 apiRouter.post('/auth/login', async (req,res) =>{
-    const user = await findUser('email', req.body.email);
-    if(user){
-        if(await bcrypt.compare(req.body.password, user.password)){
-            user.token = uuid.v4();
-            setAuthCookie(res, user.token);
-            res.send({email: user.email, token: user.token});
-            return;
+    const {email, password} = req.body;
+    const user = await db.getUser(email);
+    if(user && (await bcrypt.compare(password, user.password))){
+        user.token = uuid.v4();
+        await db.updateUser(user);
+        setAuthCookie(res, user.token);
+        res.send({email: user.email, token: user.token});
+    }else{
+        res.status(401).send({msg: 'Unauthorized'});
         }
-    }
-    res.status(401).send({msg: 'Unauthorized'});
 });
 
 apiRouter.delete('/auth/logout', async(req,res) =>{
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const token = req.coolies[authCookieName];
+    const user = await db.getUserByToken('token');
     if(user){
         delete user.token;
+        await db.updateUser(user);
     }
     res.clearCookie(authCookieName);
     res.status(204).end();
 });
 
 const verifyAuth = async (req, res, next) =>{
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const token = req.cookies[authCookieName];
+    const user = await db.getUserByToken(token);
     if(user){
         req.user = user;
         next();
@@ -81,9 +87,36 @@ const verifyAuth = async (req, res, next) =>{
     }
 };
 
-apiRouter.get('/profile', verifyAuth, (req ,res) =>{
-    res.send({email: req.user.email});
+apiRouter.get('/profile', verifyAuth, async (req ,res) =>{
+    try{
+    const profile = await db.getProfile(req.user.email);
+    if(!profile){
+        return res.status(404).json({msg: 'Profile not found' });
+    }
+    res.json(profile);
+    }catch(err){
+        console.error('Error fetching profile:,' , err);
+        res.status(500).json({msg: 'Server error'});
+}
 });
+
+apiRouter.post('/profile', verifyAuth, async(req,res)=>{
+    try{
+        const email = req.user.email;
+        const profileData ={...req.body,email};
+        const existing = await db.getProfile(email);
+
+        if(existing){
+            await db.updateProfile(email, profileData);
+            const updated = await db.getProfile(email);
+            res.json(updated);
+        } else{
+            await db.addProfile(profileData);
+            res.status(201).json(profileData);
+        }
+    } catch(err)
+})
+
 
 
 apiRouter.get('/input', verifyAuth, (req,res) =>{
@@ -111,13 +144,13 @@ apiRouter.get('/input/diet/search', verifyAuth, async(req,res)=> {
         return res.status(400).json({error:'Missing query parameter'});
     }
     try{
-        // const apiUrl= `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(query)}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`;
+        const apiUrl= `https://api.edamam.com/api/food-database/v2/parser?ingr=${encodeURIComponent(query)}&app_id=YOUR_APP_ID&app_key=YOUR_APP_KEY`;
 
-        // const response = await fetch(apiUrl);
-        // const data = await response.json();
-        // res.json(data);
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        res.json(data);
 
-        res.json({ message: 'API call disabled: set real EDAMAM_APP_ID and EDAMAM_APP_KEY' });
+        // res.json({ message: 'API call disabled: set real EDAMAM_APP_ID and EDAMAM_APP_KEY' });
 
     
 

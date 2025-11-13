@@ -5,13 +5,16 @@ const config = require('./dbConfig.json');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
-const db = client.db('simon');
+
+const db = client.db('startup');
 const userCollection = db.collection('user');
-const scoreCollection = db.collection('score');
+const profileCollection = db.collection('profile');
+const dietCollection = db.collection('diet');
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
   try {
+    await client.connect();
     await db.command({ ping: 1 });
     console.log(`Connect to database`);
   } catch (ex) {
@@ -35,3 +38,25 @@ async function addUser(user) {
 async function updateUser(user) {
   await userCollection.updateOne({ email: user.email }, { $set: user });
 }
+
+async function getProfile(email){
+  return profileCollection.findOne({email});
+}
+async function addProfile(profile){
+  await profileCollection.insertOne(profile);
+}
+async function updateProfile(email,data){
+  await profileCollection.updateOne({email},{ $set:data});
+}
+
+
+
+module.exports = {
+  getUser,
+  getUserByToken,
+  addUser,
+  updateUser,
+  getProfile,
+  addProfile,
+  updateProfile,
+};
