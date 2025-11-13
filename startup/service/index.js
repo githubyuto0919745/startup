@@ -114,8 +114,11 @@ apiRouter.post('/profile', verifyAuth, async(req,res)=>{
             await db.addProfile(profileData);
             res.status(201).json(profileData);
         }
-    } catch(err)
-})
+    } catch(err) {
+        console.error(err);
+        res.status(500).json({msg: 'Server error' });
+    }
+});
 
 
 

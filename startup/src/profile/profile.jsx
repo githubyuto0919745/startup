@@ -25,7 +25,7 @@ export default function Profile(){
     const [goal, setGoal] = useState("Maintain");    
             
     
-    const handleSave = () =>{
+    const handleSave = async() =>{
         const data = {
             gender, 
             age, 
@@ -38,9 +38,27 @@ export default function Profile(){
             bmi: calculateBMI(),
         };
         
-        localStorage.setItem("profileData", JSON.stringify(data));
-        alert("Profile is saved!!");
-    };
+        try{
+            const res = await fetch('/api/profile', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify(data),
+            });
+
+            if(res.ok){
+                const savedProfile = await res.json();
+                alert('Profile saved successfully!');
+                console.log('Saved:', savedProfile);
+            } else{
+                const err = await res.json();
+                alert('Failed to save profile:', err);
+                alert('Failed to save profile: ' + err.msg);
+            }
+            }catch (err){
+                console.error('Error to save profile: ' + err);
+                alert('Error saving profile');
+            }};
 
     const calculateFats = () =>{
         if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
