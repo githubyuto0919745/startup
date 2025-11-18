@@ -37,7 +37,7 @@ export default function Login({setAuthState}){
 
  const handleSignup = async() =>{
     try{
-        const res = await fetch ('/api/auth/signup', {
+        const res = await fetch ('/api/auth/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify ({email: email, password:newPassword}),

@@ -8,6 +8,7 @@ export default function Graph(){
     const [charData, setCharData] = useState([]);
     const [hasData, setHasData] = useState(false);
     const navigate = useNavigate();
+    const [joke, setJoke] = useState('Loading joke...');
  
     useEffect(() => {
         const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
@@ -18,7 +19,7 @@ export default function Graph(){
                 const response = await fetch ('/api/graph', {credentials: 'include'});
                 if(!response.ok){
                     navigate('/login');
-                    throw new Error('UNauthorized');
+                    throw new Error('Unauthorized');
                 }
 
             }catch (err){
@@ -53,6 +54,17 @@ export default function Graph(){
             ];
             setCharData(data);
             setHasData(data.some(d => d.profile > 0 || d.intake > 0));
+
+
+
+
+
+             fetch('https://official-joke-api.appspot.com/jokes/random')
+                .then((response) => response.json())
+                .then((data) => {
+                    setJoke(`${data.setup} ... ${data.punchline}`);
+                })
+                .catch(() => setJoke('Could not fetch a joke!'));
 },[]);
 
 
@@ -77,6 +89,9 @@ export default function Graph(){
                         <Bar dataKey = "intake" fill="#82ca9d" />
                     </BarChart>
                     )}
+
+                    <p className="joke"><em>{joke}</em></p>
+
                    
                 </div>
             </div>
