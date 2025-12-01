@@ -25,7 +25,7 @@ export default function Login({setAuthState}){
             alert(`Login successful! Welcome ${data.email}`);
             setAuthState(AuthState.Authenticated);
             navigate('/profile');
-        } else{
+        } else {
             const err = await res.json();
             alert(`Login failed: ${err.msg}`);
         }

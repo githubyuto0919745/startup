@@ -25,6 +25,7 @@ export default function Profile(){
     const [goal, setGoal] = useState("Maintain");    
             
     
+
     const handleSave = async() =>{
         const data = {
             gender, 
@@ -59,6 +60,11 @@ export default function Profile(){
                 console.error('Error to save profile: ' + err);
                 alert('Error saving profile');
             }};
+
+    useEffect(() => {
+        console.log("Profile loaded");
+    }, []);
+    
 
     const calculateFats = () =>{
         if (!activity || !goal || age <= 0 || calheight <= 0 || calweight <= 0) return 0;
