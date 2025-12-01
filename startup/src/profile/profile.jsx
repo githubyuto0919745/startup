@@ -14,7 +14,7 @@ export default function Profile(){
                 label: `${h} cm`,
                 value: h
         }));
-    const [heightOptions, setHOptions] = useState(initialHOptions)
+    const [heightOptions, setHOptions] = useState(initialHOptions);
     const [calheight, setCalHeight] = useState(initialHOptions[0].value);
 
     const [weightUnits, setWUnits] = useState("kg");

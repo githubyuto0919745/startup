@@ -22,22 +22,33 @@ export default function Input({profile ={}}){
     useEffect(() => {
         
         const fetchDiet = async () =>{
-            try{
-                const response =await fetch ('/api/input', {credentials: 'include' });
+            try {
+                const response = await fetch ('/api/input', {credentials: 'include' });
+
                 if (!response.ok) {
                     navigate('/login');
                     return;
                 }
 
                 const data = await response.json();
-                setIntakelist(data);
+
+                const formatted = data.map(entry =>({
+                    name: entry.date ? new Date(entry.date).toLocaleString() : "Saved Meal",
+                    calories: entry.calories,
+                    protein: entry.protein,
+                    carbs: entry.carbs,
+                    fat: entry.fat
+                }));
+
+                setIntakelist(formatted);
+            
             }catch (err){
                 console.log('Error loading diet:', err.message);
                 
             }
             
-        };
-        fetchDiet();
+            };
+            fetchDiet();
     },[]);
 
 
@@ -59,7 +70,16 @@ export default function Input({profile ={}}){
         });
         
         if(response.ok){
-            const newEntry = await response.json();
+            const saved= await response.json();
+
+            const newEntry = {
+            name: saved.date ? new Date(saved.date).toLocaleString() : "Saved Meal",
+            calories: saved.calories,
+            protein: saved.protein,
+            carbs: saved.carbs,
+            fat: saved.fat
+            };
+
             setIntakelist([...intakelist, newEntry]);
             alert('Diet saved to server! ');
         } else {

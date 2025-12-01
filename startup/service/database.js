@@ -49,6 +49,20 @@ async function updateProfile(email,data){
   await profileCollection.updateOne({email},{ $set:data});
 }
 
+async function addInput(entry){
+  await dietCollection.insertOne(entry);
+}
+async function getInputs(email){
+  return dietCollection
+}
+
+async function addDietEntry(entry){
+  await dietCollection.insertOne(entry);
+}
+async function getDietHistory(email){
+  return dietCollection.find({email}).sort({date:1}).toArray();
+}
+
 
 
 module.exports = {
@@ -59,4 +73,8 @@ module.exports = {
   getProfile,
   addProfile,
   updateProfile,
+  addInput,
+  getInputs,
+  addDietEntry,
+  getDietHistory
 };

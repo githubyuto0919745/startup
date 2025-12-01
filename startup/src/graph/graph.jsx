@@ -5,67 +5,54 @@ import {useNavigate} from 'react-router-dom';
 
 export default function Graph(){
 
-    const [charData, setCharData] = useState([]);
+    const [chartData, setChartData] = useState([]);
     const [hasData, setHasData] = useState(false);
     const navigate = useNavigate();
     const [joke, setJoke] = useState('Loading joke...');
  
     useEffect(() => {
-        const profileData = JSON.parse(localStorage.getItem("profileData") || "{}");
-        const intakeData = JSON.parse(localStorage.getItem("intakeData") || "{}");
-
+     
         const fetchGraph = async() =>{
             try{
                 const response = await fetch ('/api/graph', {credentials: 'include'});
                 if(!response.ok){
                     navigate('/login');
-                    throw new Error('Unauthorized');
+                    return;
                 }
+                const data = await response.json();
 
-            }catch (err){
-                console.log('Error loading diet:', err.message);
-            }
+                 const chart = [
+                    { name: "Calories (kcal)", profile: data.profile.calories, intake: data.intake.calories },
+                    { name: "Protein (g)", profile: data.profile.protein, intake: data.intake.protein },
+                    { name: "Carbs (g)", profile: data.profile.carbs, intake: data.intake.carbs },
+                    { name: "Fats (g)", profile: data.profile.fats, intake: data.intake.fats },
+                ];
+                
+                setChartData(chart);
+                setHasData(chart.some(d=> d.profile >0 || d.intake >0));
+            } catch (err){
+                console.error("Error loading graph:" , err.message);
+            };
         };
-        fetchGraph();
-
-
-        const  data = [
-            {
-                name: "Calories",
-                profile: Number(profileData.tdee) || 0,
-                intake: Number(intakeData.calories) || 0,
-
-            },
-            {
-            name: "Protein",
-            profile: Number(profileData.protein) || 0,
-            intake: Number(intakeData.protein) || 0,
-            },
-            {
-            name: "Carbs",
-            profile: Number(profileData.carbs) || 0,
-            intake: Number(intakeData.carbs) || 0,
-            },
-            {
-            name: "Fats",
-            profile: Number(profileData.fats) || 0,
-            intake: Number(intakeData.fat) || 0,
-            },
-            ];
-            setCharData(data);
-            setHasData(data.some(d => d.profile > 0 || d.intake > 0));
 
 
 
-
-
-             fetch('https://official-joke-api.appspot.com/jokes/random')
-                .then((response) => response.json())
-                .then((data) => {
+            const fetchJoke = async() =>{
+                try{
+                    const response = await fetch('https://official-joke-api.appspot.com/jokes/random');
+                    const data = await response.json();
                     setJoke(`${data.setup} ... ${data.punchline}`);
-                })
-                .catch(() => setJoke('Could not fetch a joke!'));
-},[]);
+
+                }catch{
+                    setJoke('Could not fetch a joke!');
+                }
+                };
+
+                fetchGraph();
+                fetchJoke();
+
+            },[navigate]);
+        
 
 
     return(
@@ -79,7 +66,7 @@ export default function Graph(){
                     {!hasData?(
                         <p>No data yet.</p>
                     ) :( 
-                    <BarChart width={500} height ={300} data = {charData}>
+                    <BarChart width={500} height ={300} data = {chartData}>
                         <CartesianGrid strokeDasharray= "3 3" />
                         <XAxis dataKey="name" />
                         <YAxis label ={{ value: 'Grams', angle:-90, position: 'insideLeft'}} />

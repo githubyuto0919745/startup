@@ -165,3 +165,57 @@ apiRouter.post('/profile', verifyAuth, async(req,res)=>{
         res.status(500).json({msg: 'Server error' });
     }
 });
+
+apiRouter.post('/input', verifyAuth, async(req,res) =>{
+  try{
+    const email = req.user.email;
+
+    const entry = {
+      email, 
+      calories: req.body.calories,
+      protein: req.body.protein,
+      carbs: req.body.carbs,
+      fat:req.body.fat,
+    }
+    await db.addInput(entry);
+
+    res.status(201).json(entry);
+    }catch(err){
+      console.error('Error saving input:', err);
+      res.status(500).json({msg: 'Server error' });
+    }
+});
+
+apiRouter.get('/graph', verifyAuth, async(req,res)=>{
+  try{
+    const email = req.user.email;
+
+    const profile= await db.getProfile(email);
+    const diet = await db.getDietHistory(email);
+
+    if(!profile || diet.length ===0){
+      return res.json({profile:null, intake: null});}
+
+      const latest = diet[diet.length -1];
+
+      res.json({
+        profile:{
+          calories: profile.tdee || 0,
+          protein: profile.protein || 0,
+          carbs: profile. carbs ||0,
+          fats: profile.fats || 0,
+        },
+        intake:{
+          calories: latest.calories,
+          protein: latest.protein,
+          carbs: latest.carbs,
+          fats: latest.fats,
+        }
+      });
+    } catch (err){
+      console.error("Graph error", err);
+      res.status(500).json({msg:"Server error"});
+    }
+});
+
+
