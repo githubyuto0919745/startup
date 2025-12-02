@@ -24,24 +24,12 @@ export default function Input({profile ={}}){
         const fetchDiet = async () =>{
             try {
                 const response = await fetch ('/api/input', {credentials: 'include' });
-
                 if (!response.ok) {
                     navigate('/login');
                     return;
                 }
-
                 const data = await response.json();
-
-                const formatted = data.map(entry =>({
-                    name: entry.date ? new Date(entry.date).toLocaleString() : "Saved Meal",
-                    calories: entry.calories,
-                    protein: entry.protein,
-                    carbs: entry.carbs,
-                    fat: entry.fat
-                }));
-
-                setIntakelist(formatted);
-            
+                setIntakelist(data);
             }catch (err){
                 console.log('Error loading diet:', err.message);
                 
@@ -49,7 +37,7 @@ export default function Input({profile ={}}){
             
             };
             fetchDiet();
-    },[]);
+    },[navigate]);
 
 
 
@@ -97,13 +85,13 @@ export default function Input({profile ={}}){
         
         try{
             const response = await fetch(`/api/input/diet/search?q=${search}`);
-            const data = await response.json;
+            const data = await response.json();
             
             if(data.foods && data.foods.length >0){
                 const food = data.foods[0];
                 setResult({
                     name: food.label,
-                    calories: food.nutrients.ENERC_KCAK || 0,
+                    calories: food.nutrients.ENERC_KCAL || 0,
                     protein: food.nutrients.PROCNT || 0,
                     carbs: food.nutrients.CHOCDF || 0,
                     fat: food.nutrients.FAT || 0,
@@ -131,10 +119,10 @@ export default function Input({profile ={}}){
         
         const item = {
             name: result.name,
-            calories: Math.round(result.calories * quantity),
-            protein: Math.round(result.protein * quantity),
-            carbs: Math.round(result.carbs * quantity),
-            fat: Math.round(result.fat * quantity),
+            calories: Math.round(result.calories * quantity) || 0,
+            protein: Math.round(result.protein * quantity) || 0,
+            carbs: Math.round(result.carbs * quantity) || 0,
+            fat: Math.round(result.fat * quantity) || 0,
         };
 
         setIntakelist([...intakelist, item]);
@@ -190,7 +178,7 @@ export default function Input({profile ={}}){
                     <label>Quantity
                     <input
                     type = "number"
-                    value = {quantity}
+                    value = {quantity || 1}
                     onChange = {(e) => setQuantity(Number(e.target.value))}
                     min="1"
                     />    

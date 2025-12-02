@@ -77,8 +77,12 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
   try{
-    const user = await findUser('token', req.cookies[authCookieName]);
+    const token = req.cookies[authCookieName];
+    if(!token) return res.status(401).json({msg: "Unauthorized" });
+
+    const user = await db.getUserByToken(token);
     if (!user) return res.status(401).json({ msg: 'Unauthorized' });
+      
       req.user = user;
       next(); 
     } catch (err) {
@@ -127,19 +131,27 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-const httpService = app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+(async () => {
+  await db.connectDB(); 
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+})();
 
 
 
 apiRouter.get('/profile', verifyAuth, async (req ,res) =>{
     try{
-    const profile = await db.getProfile(req.user.email);
-    if(!profile){
-        return res.status(404).json({msg: 'Profile not found' });
-    }
-    res.json(profile);
+
+      if (!req.user || !req.user.email) {
+      return res.status(401).json({ msg: 'Unauthorized' });
+      }
+
+      const profile = await db.getProfile(req.user.email);
+      if(!profile){
+          return res.status(404).json({msg: 'Profile not found' });
+      }
+      res.json(profile);
     }catch(err){
         console.error('Error fetching profile:,' , err);
         res.status(500).json({msg: 'Server error'});
@@ -148,6 +160,10 @@ apiRouter.get('/profile', verifyAuth, async (req ,res) =>{
 
 apiRouter.post('/profile', verifyAuth, async(req,res)=>{
     try{
+
+        if (!req.user || !req.user.email) {
+        return res.status(401).json({ msg: 'Unauthorized' });
+        }
         const email = req.user.email;
         const profileData ={...req.body,email};
         const existing = await db.getProfile(email);
@@ -166,19 +182,28 @@ apiRouter.post('/profile', verifyAuth, async(req,res)=>{
     }
 });
 
+apiRouter.get('/input', verifyAuth, async (req, res) => {
+    try {
+        const email = req.user.email;
+        const history = await db.getDietHistory(email); 
+       
+        if(!history || history.length ===0){
+          return res.status(401).json({msg: "Unsuthorized" });
+        }
+        res.json(history);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: 'Server error' });
+    }
+});
+
+
 apiRouter.post('/input', verifyAuth, async(req,res) =>{
   try{
     const email = req.user.email;
+    const entry = { ...req.body, email, date: new Date()};
 
-    const entry = {
-      email, 
-      calories: req.body.calories,
-      protein: req.body.protein,
-      carbs: req.body.carbs,
-      fat:req.body.fat,
-    }
-    await db.addInput(entry);
-
+    await db.addDietEntry(entry);
     res.status(201).json(entry);
     }catch(err){
       console.error('Error saving input:', err);
@@ -194,7 +219,8 @@ apiRouter.get('/graph', verifyAuth, async(req,res)=>{
     const diet = await db.getDietHistory(email);
 
     if(!profile || diet.length ===0){
-      return res.json({profile:null, intake: null});}
+      return res.status(401).json({msg: "Unauthorized" });
+    }
 
       const latest = diet[diet.length -1];
 
@@ -202,7 +228,7 @@ apiRouter.get('/graph', verifyAuth, async(req,res)=>{
         profile:{
           calories: profile.tdee || 0,
           protein: profile.protein || 0,
-          carbs: profile. carbs ||0,
+          carbs: profile. carbs || 0,
           fats: profile.fats || 0,
         },
         intake:{

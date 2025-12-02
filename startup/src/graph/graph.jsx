@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import './graph.css';
 import {BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend} from "recharts";
 import {useNavigate} from 'react-router-dom';
+import {io} from 'socket.io-client';
 
-export default function Graph(){
+export default function Graph({userEmail}){
 
     const [chartData, setChartData] = useState([]);
     const [hasData, setHasData] = useState(false);
@@ -12,47 +13,42 @@ export default function Graph(){
  
     useEffect(() => {
      
-        const fetchGraph = async() =>{
+        const socket = io('http://localhost:4001');
+        socket.emit('getGraph', userEmail);
+        socket.on('graphData', (data) =>{
+            if(!data || !data.profile) {
+                setHasData(false);
+                return;}
+
+            const chart = [
+            { name: "Calories (kcal)", profile: data.profile.calories ||0, intake: data.intake.calories || 0},
+            { name: "Protein (g)", profile: data.profile.protein || 0, intake: data.intake.protein   || 0},
+            { name: "Carbs (g)", profile: data.profile.carbs || 0, intake: data.intake.carbs || 0},
+            { name: "Fats (g)", profile: data.profile.fats || 0, intake: data.intake.fats || 0},
+        ];
+
+          
+            setChartData(chart);
+            setHasData(chart.some(d=> d.profile >0 || d.intake >0));
+
+        });
+
+
+        const fetchJoke = async() =>{
             try{
-                const response = await fetch ('/api/graph', {credentials: 'include'});
-                if(!response.ok){
-                    navigate('/login');
-                    return;
-                }
+                const response = await fetch('https://official-joke-api.appspot.com/jokes/random');
                 const data = await response.json();
-
-                 const chart = [
-                    { name: "Calories (kcal)", profile: data.profile.calories, intake: data.intake.calories },
-                    { name: "Protein (g)", profile: data.profile.protein, intake: data.intake.protein },
-                    { name: "Carbs (g)", profile: data.profile.carbs, intake: data.intake.carbs },
-                    { name: "Fats (g)", profile: data.profile.fats, intake: data.intake.fats },
-                ];
-                
-                setChartData(chart);
-                setHasData(chart.some(d=> d.profile >0 || d.intake >0));
-            } catch (err){
-                console.error("Error loading graph:" , err.message);
+                setJoke(`${data.setup} ${data.punchline}`);
+            }catch{
+                setJoke('Could not fetch a joke!');
+            }
             };
-        };
 
-
-
-            const fetchJoke = async() =>{
-                try{
-                    const response = await fetch('https://official-joke-api.appspot.com/jokes/random');
-                    const data = await response.json();
-                    setJoke(`${data.setup} ... ${data.punchline}`);
-
-                }catch{
-                    setJoke('Could not fetch a joke!');
-                }
-                };
-
-                fetchGraph();
-                fetchJoke();
-
-            },[navigate]);
-        
+            
+            fetchJoke();
+            return () => socket.disconnect();
+        },[userEmail]);
+    
 
 
     return(
@@ -64,8 +60,10 @@ export default function Graph(){
                     <h1>Graph</h1>
                     <h2> Macronutrient Distribution</h2>
                     {!hasData?(
+                        <pre>{JSON.stringify(chartData, null, 2)} </pre>
+                    ) : (
                         <p>No data yet.</p>
-                    ) :( 
+                    )}
                     <BarChart width={500} height ={300} data = {chartData}>
                         <CartesianGrid strokeDasharray= "3 3" />
                         <XAxis dataKey="name" />
@@ -75,7 +73,7 @@ export default function Graph(){
                         <Bar dataKey = "profile" fill="#e094acff" />
                         <Bar dataKey = "intake" fill="#82ca9d" />
                     </BarChart>
-                    )}
+                    
 
                     <p className="joke"><em>{joke}</em></p>
 
