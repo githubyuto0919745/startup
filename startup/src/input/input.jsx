@@ -118,14 +118,13 @@ export default function Input({profile ={}, useDummyData= true }){
 
          if (useDummyData) {
             const food = foodData.find((f) =>
-                f.name.toLowerCase().includes(search.toLowerCase())
+                f.name.toLowerCase().includes(search.trim().toLowerCase())
             );
             if (food) setResult(food);
             else {
                 setResult(null);
                 alert('No food found!');
             }
-            } else {
             }
     };
 

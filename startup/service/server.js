@@ -12,11 +12,15 @@ function ws(httpServer){
   //   credentials: true
   // }));
 
+  const allowedOrigins = [
+  process.env.FRONTEND_URL, // set in production environment
+  "http://localhost:5173"
+  ];
 
   const io = new Server(httpServer, { 
     cors: { 
-    origin: "http://localhost:5173",
-    method: ["GET", "POST"],
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
     credentials: true,
     allowedHeaders: ['Authorization', 'Content-Type']
   },

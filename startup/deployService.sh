@@ -42,6 +42,7 @@ ssh -i "$key" ubuntu@$hostname << ENDSSH
 bash -i
 cd services/${service}
 npm install
+npm install socket.io
 pm2 restart ${service}
 ENDSSH
 
