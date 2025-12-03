@@ -17,7 +17,7 @@ export default function Graph({userEmail}){
      
          const socket = io('http://localhost:4000', {
             withCredentials: true,
-            Auth: {
+            auth: {
                 token: `Bearer ${userEmail}` 
             }
         });
@@ -71,12 +71,7 @@ export default function Graph({userEmail}){
                 <div className="graph-set">
                     <h1>Graph</h1>
                     <h2> Macronutrient Distribution</h2>
-                    {!hasData?(
-                        <pre>{JSON.stringify(chartData, null, 2)} </pre>
-                    ) : (
-                        <p>No data yet.</p>
-                    )}
-                    <BarChart width={500} height ={300} data = {chartData}>
+                    {!hasData?( <BarChart width={500} height ={300} data = {chartData}>
                         <CartesianGrid strokeDasharray= "3 3" />
                         <XAxis dataKey="name" />
                         <YAxis label ={{ value: 'Grams', angle:-90, position: 'insideLeft'}} />
@@ -85,6 +80,10 @@ export default function Graph({userEmail}){
                         <Bar dataKey = "profile" fill="#e094acff" />
                         <Bar dataKey = "intake" fill="#82ca9d" />
                     </BarChart>
+                    ) : (
+                        <p>No data yet.</p>
+                    )}
+                   
                     
 
                     <p className="joke"><em>{joke}</em></p>

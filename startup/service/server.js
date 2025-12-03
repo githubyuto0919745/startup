@@ -1,70 +1,69 @@
-const express = require('express');
-const http = require('http');
 const { Server } = require('socket.io');
 const db = require('./database.js');
 
 
-const cors = require('cors');
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
-
-const app = express(); 
-const server = http.createServer(app);
-
-const io = new Server(server, { 
-  cors: { 
-  origin: "http://localhost:5173",
-  method: ["GET", "POST"],
-  credentials: true,
-  allowedHeaders: ['Authorization', 'Content-Type']
- },
- });
-
-app.use(express.json());
-app.use(cookieParser());
 
 
-io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
 
-  socket.on('getGraph', async (userEmail) => {
-    try {
-      const profile = await db.getProfile(userEmail);
-      const diet = await db.getDietHistory(userEmail);
+function ws(httpServer){
+  
+  // app.use(cors({
+  //   origin: "http://localhost:5173",
+  //   credentials: true
+  // }));
 
-      if (!profile || diet.length === 0) {
-        socket.emit('graphData', { profile: null, intake: null });
-        return;
-      }
 
-      const latest = diet[diet.length - 1];
+  const io = new Server(httpServer, { 
+    cors: { 
+    origin: "http://localhost:5173",
+    method: ["GET", "POST"],
+    credentials: true,
+    allowedHeaders: ['Authorization', 'Content-Type']
+  },
+  });
 
-      socket.emit('graphData', {
-        profile: {
-          calories: profile.tdee || 0,
-          protein: profile.protein || 0,
-          carbs: profile.carbs || 0,
-          fats: profile.fats || 0,
-        },
-        intake: {
-          calories: latest.calories,
-          protein: latest.protein,
-          carbs: latest.carbs,
-          fats: latest.fats,
+
+
+  io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+
+    socket.on('getGraph', async (userEmail) => {
+      try {
+        const profile = await db.getProfile(userEmail);
+        const diet = await db.getDietHistory(userEmail);
+
+        if (!profile || diet.length === 0) {
+          socket.emit('graphData', { profile: null, intake: null });
+          return;
         }
-      });
-    } catch (err) {
-      console.error('WebSocket graph error:', err);
-    }
-  });
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
-  });
+        const latest = diet[diet.length - 1];
+
+        socket.emit('graphData', {
+          profile: {
+            calories: profile.tdee || 0,
+            protein: profile.protein || 0,
+            carbs: profile.carbs || 0,
+            fats: profile.fats || 0,
+          },
+          intake: {
+            calories: latest.calories,
+            protein: latest.protein,
+            carbs: latest.carbs,
+            fats: latest.fats,
+          }
+        });
+      } catch (err) {
+        console.error('WebSocket graph error:', err);
+      }
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Client disconnected:', socket.id);
+    });
 });
 
-server.listen(4000, () => {
-  console.log(`WebSocket server running on port ${PORT}`);
-});
+
+}
+
+module.exports = {ws};

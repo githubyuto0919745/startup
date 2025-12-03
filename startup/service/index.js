@@ -4,6 +4,7 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 const db = require('./database.js');
+const {ws} = require('./server.js'); 
 
 const authCookieName = 'token';
 
@@ -243,5 +244,11 @@ apiRouter.get('/graph', verifyAuth, async(req,res)=>{
       res.status(500).json({msg:"Server error"});
     }
 });
+
+const httpService = app.listen(port, () =>{
+  console.log(`Listening on port ${port}`);
+});
+
+ws(httpService);
 
 
