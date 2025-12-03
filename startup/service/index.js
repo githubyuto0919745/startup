@@ -127,7 +127,7 @@ function setAuthCookie(res, authToken) {
     maxAge: 1000 * 60 * 60 * 24 * 365,
     secure: false,
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: 'lax',
   });
 }
 
@@ -188,7 +188,7 @@ apiRouter.get('/input', verifyAuth, async (req, res) => {
         const history = await db.getDietHistory(email); 
        
         if(!history || history.length ===0){
-          return res.status(401).json({msg: "Unsuthorized" });
+          return res.json([]);
         }
         res.json(history);
     } catch (err) {

@@ -69,7 +69,7 @@ return(
                 path="/input" 
                 element={
                 authState === AuthState.Authenticated
-                    ? <Input />
+                    ? <Input useDummyData={true} />
                     : <Navigate to="/" replace />
             } 
             />

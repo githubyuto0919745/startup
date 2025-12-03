@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 
 
 
-export default function Input({profile ={}}){
+export default function Input({profile ={}, useDummyData= true }){
     
 
 
@@ -19,7 +19,19 @@ export default function Input({profile ={}}){
 
 
 
+
+    const foodData = [
+    { name: 'Apple', calories: 52, protein: 0.3, carbs: 14, fat: 0.2 },
+    { name: 'Banana', calories: 89, protein: 1.1, carbs: 23, fat: 0.3 },
+    { name: 'Chicken Breast', calories: 165, protein: 31, carbs: 0, fat: 3.6 },
+    { name: 'Rice', calories: 130, protein: 2.7, carbs: 28, fat: 0.3 },
+    { name: 'Egg', calories: 68, protein: 5.5, carbs: 0.6, fat: 4.8 },
+    ];
+
+
     useEffect(() => {
+
+        if(useDummyData) return;
         
         const fetchDiet = async () =>{
             try {
@@ -37,7 +49,7 @@ export default function Input({profile ={}}){
             
             };
             fetchDiet();
-    },[navigate]);
+    },[navigate, useDummyData]);
 
 
 
@@ -83,26 +95,38 @@ export default function Input({profile ={}}){
         const handleSearch = async (e) =>{
         e.preventDefault();
         
-        try{
-            const response = await fetch(`/api/input/diet/search?q=${search}`);
-            const data = await response.json();
+        // try{
+        //     const response = await fetch(`/api/input/diet/search?q=${search}`);
+        //     const data = await response.json();
             
-            if(data.foods && data.foods.length >0){
-                const food = data.foods[0];
-                setResult({
-                    name: food.label,
-                    calories: food.nutrients.ENERC_KCAL || 0,
-                    protein: food.nutrients.PROCNT || 0,
-                    carbs: food.nutrients.CHOCDF || 0,
-                    fat: food.nutrients.FAT || 0,
-                });
-             } else{
+        //     if(data.foods && data.foods.length >0){
+        //         const food = data.foods[0];
+        //         setResult({
+        //             name: food.label,
+        //             calories: food.nutrients.ENERC_KCAL || 0,
+        //             protein: food.nutrients.PROCNT || 0,
+        //             carbs: food.nutrients.CHOCDF || 0,
+        //             fat: food.nutrients.FAT || 0,
+        //         });
+        //      } else{
+        //         setResult(null);
+        //         alert('No food found!');
+        //     }
+        // }catch(err) {
+        //     console.error('Error fetching food:', err);
+        // }
+
+         if (useDummyData) {
+            const food = foodData.find((f) =>
+                f.name.toLowerCase().includes(search.toLowerCase())
+            );
+            if (food) setResult(food);
+            else {
                 setResult(null);
                 alert('No food found!');
             }
-        }catch(err) {
-            console.error('Error fetching food:', err);
-        }
+            } else {
+            }
     };
 
           
@@ -131,21 +155,23 @@ export default function Input({profile ={}}){
         setResult(null); 
     };
 
-    const totals  = intakelist.reduce(
-        (acc, item) => ({
-            calories: acc.calories + item.calories,
-            protein: acc.protein + item.protein,
-            carbs: acc.carbs + item.carbs,
-            fat: acc.fat + item.fat
-        }),
-        {calories: 0, protein: 0, carbs: 0, fat: 0,}
-    );
 
     const handleDelete = (remove) =>{
         setIntakelist(intakelist.filter((_,index) => index !== remove));
 
     }
+
     
+    const totals = intakelist.reduce(
+        (acc, item) => ({
+        calories: acc.calories + item.calories,
+        protein: acc.protein + item.protein,
+        carbs: acc.carbs + item.carbs,
+        fat: acc.fat + item.fat,
+        }),
+        { calories: 0, protein: 0, carbs: 0, fat: 0 }
+    );
+        
     
     
     return (

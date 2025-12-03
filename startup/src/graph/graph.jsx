@@ -10,11 +10,20 @@ export default function Graph({userEmail}){
     const [hasData, setHasData] = useState(false);
     const navigate = useNavigate();
     const [joke, setJoke] = useState('Loading joke...');
+
+
  
     useEffect(() => {
      
-        const socket = io('http://localhost:4001');
+         const socket = io('http://localhost:4000', {
+            withCredentials: true,
+            Auth: {
+                token: `Bearer ${userEmail}` 
+            }
+        });
+
         socket.emit('getGraph', userEmail);
+        
         socket.on('graphData', (data) =>{
             if(!data || !data.profile) {
                 setHasData(false);
@@ -32,6 +41,7 @@ export default function Graph({userEmail}){
             setHasData(chart.some(d=> d.profile >0 || d.intake >0));
 
         });
+           
 
 
         const fetchJoke = async() =>{
@@ -46,6 +56,8 @@ export default function Graph({userEmail}){
 
             
             fetchJoke();
+            
+
             return () => socket.disconnect();
         },[userEmail]);
     

@@ -3,12 +3,28 @@ const http = require('http');
 const { Server } = require('socket.io');
 const db = require('./database.js');
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: '*' }});
 
-const PORT = 4001;
+const cors = require('cors');
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
+const app = express(); 
+const server = http.createServer(app);
+
+const io = new Server(server, { 
+  cors: { 
+  origin: "http://localhost:5173",
+  method: ["GET", "POST"],
+  credentials: true,
+  allowedHeaders: ['Authorization', 'Content-Type']
+ },
+ });
+
+app.use(express.json());
+app.use(cookieParser());
+
 
 io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
@@ -49,6 +65,6 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(4000, () => {
   console.log(`WebSocket server running on port ${PORT}`);
 });
