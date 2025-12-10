@@ -24,6 +24,38 @@ export default function Profile(){
     const [activity, setActivity] = useState("Moderately Active (3-5 days/week)");
     const [goal, setGoal] = useState("Maintain");    
             
+    useEffect(()=>{
+        const fetchProfile = async()=>{
+            try{
+                const res = await fetch('/api/profile', {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json' },
+                    credentials: 'include',
+                });
+                 if(res.ok){
+                    const savedProfile = await res.json();
+
+                    if(savedProfile.gender) handleGender({ target: { value: savedProfile.gender } });
+                    if(savedProfile.age) setAge(savedProfile.age);
+                    if(savedProfile.height) setCalHeight(savedProfile.height);
+                    if(savedProfile.heightUnits) setHUnits(savedProfile.heightUnits);
+                    if(savedProfile.weight) setCalWeight(savedProfile.weight);
+                    if(savedProfile.weightUnits) setWUnits(savedProfile.weightUnits);
+                    if(savedProfile.activity) setActivity(savedProfile.activity);
+                    if(savedProfile.goal) setGoal(savedProfile.goal);
+
+                    console.log("Profile loaded:", savedProfile);
+                } else {
+                    console.error("Failed to fetch profile");
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+            }
+
+            };
+
+            fetchProfile();
+        },[]);
     
 
     const handleSave = async() =>{
@@ -61,9 +93,7 @@ export default function Profile(){
                 alert('Error saving profile');
             }};
 
-    // useEffect(() => {
-    //     console.log("Profile loaded");
-    // }, []);
+
     
 
     const calculateFats = () =>{
@@ -231,17 +261,6 @@ export default function Profile(){
         }
     };
 
-    //  const profile = {
-    //                     gender,
-    //                     age,
-    //                     heightUnits,
-    //                     calheight,
-    //                     weightUnits,
-    //                     calweight,
-    //                     activity,
-    //                     goal,
-    //                     };
-   
 
 
 
