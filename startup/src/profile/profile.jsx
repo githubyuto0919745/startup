@@ -61,9 +61,9 @@ export default function Profile(){
                 alert('Error saving profile');
             }};
 
-    useEffect(() => {
-        console.log("Profile loaded");
-    }, []);
+    // useEffect(() => {
+    //     console.log("Profile loaded");
+    // }, []);
     
 
     const calculateFats = () =>{

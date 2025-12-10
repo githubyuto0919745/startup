@@ -22,6 +22,7 @@ export default function Login({setAuthState}){
         });
         if(res.ok){
             const data = await res.json();
+            localStorage.setItem('userName', data.email);
             alert(`Login successful! Welcome ${data.email}`);
             setAuthState(AuthState.Authenticated);
             navigate('/profile');
@@ -45,6 +46,7 @@ export default function Login({setAuthState}){
         });
         if(res.ok){
             const data = await res.json();
+            localStorage.setItem('userName', data.email);
             alert(`Signup successful! Welcome ${data.email}`);
             setAuthState(AuthState.Authenticated);
             setEmail('');
@@ -71,6 +73,7 @@ export default function Login({setAuthState}){
                 <label htmlFor = "username"> Email </label>
                 <input 
                 id="username" 
+                type="email"
                 placeholder="you@example.com"
                 value = {username}
                 onChange = {(e) => setusername(e.target.value)} 
@@ -94,6 +97,7 @@ export default function Login({setAuthState}){
                 <label htmlFor= "email"> Email </label>
                 <input 
                 id= "email"  
+                type = "email"
                 placeholder = "abcde@gmail.com"
                 value = {email}
                 onChange =  {(e) => setEmail(e.target.value)}

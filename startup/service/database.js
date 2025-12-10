@@ -6,7 +6,7 @@ const config = require('./dbConfig.json');
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
 
-let db, userCollection, profileCollection, dietCollection;
+let db, userCollection, profileCollection, dietCollection, graphCollection;
 
 async function connectDB() {
   try {
@@ -15,6 +15,7 @@ async function connectDB() {
     userCollection = db.collection('user');
     profileCollection = db.collection('profile');
     dietCollection = db.collection('diet');
+    graphCollection = db.collection('graph');
     console.log('Connected to database');
   } catch (err) {
     console.error('DB connection failed:', err);
@@ -57,7 +58,16 @@ async function getDietHistory(email){
   return dietCollection.find({email}).sort({date:1}).toArray();
 }
 
-
+async function addGraphdata(email, graphData){
+  return await graphCollection.updateOne(
+    {email},
+    {$set: graphData},
+    {upsert: true}
+    );
+}
+async function getGraphdata(email){
+  return await graphCollection.findOne({email});
+}
 
 module.exports = {
   connectDB,
@@ -69,5 +79,7 @@ module.exports = {
   addProfile,
   updateProfile,
   addDietEntry,
-  getDietHistory
+  getDietHistory,
+  addGraphdata,
+  getGraphdata
 };

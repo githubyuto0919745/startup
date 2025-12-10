@@ -140,11 +140,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - I set up socket.io to connect client data
+- [x] **Frontend makes WebSocket connection** - I used socket.io to connect backend and frontend
+- [x] **Data sent over WebSocket connection** - I create variable called graphData to sent over Websocket
+- [x] **WebSocket data displayed** - I added chartData at front to check if the data type is correct from graphData
+- [x] **Application is fully functional** - I added function to update real-time graph without reloading
 
 
 

@@ -5,11 +5,26 @@ const uuid = require('uuid');
 const app = express();
 const db = require('./database.js');
 const {ws} = require('./server.js'); 
+const {peerProxy} = require('./peerProxy.js');
 
 const authCookieName = 'token';
 
-// The service port may be set on the command line
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
+const cors = require('cors');
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://startup.qrcreate24.click",
+    process.env.FRONTEND_URL
+  ],
+  credentials: true
+}));
+
+
+
+// The service port may be set on the command line
+
 
 // JSON body parsing using built-in middleware
 app.use(express.json());
@@ -23,6 +38,7 @@ app.use(express.static('public'));
 // Router for service endpoints
 const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
+
 
 // CreateAuth token for a new user
 apiRouter.post('/auth/create', async (req, res) => {
@@ -132,12 +148,7 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-(async () => {
-  await db.connectDB(); 
-  app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
-  });
-})();
+
 
 
 
@@ -225,7 +236,8 @@ apiRouter.get('/graph', verifyAuth, async(req,res)=>{
 
       const latest = diet[diet.length -1];
 
-      res.json({
+      const graphData= {
+        email,
         profile:{
           calories: profile.tdee || 0,
           protein: profile.protein || 0,
@@ -237,18 +249,30 @@ apiRouter.get('/graph', verifyAuth, async(req,res)=>{
           protein: latest.protein,
           carbs: latest.carbs,
           fats: latest.fats,
-        }
-      });
-    } catch (err){
-      console.error("Graph error", err);
-      res.status(500).json({msg:"Server error"});
-    }
-});
+        },
+        updateAt: new Date()
+      };
 
-const httpService = app.listen(port, () =>{
-  console.log(`Listening on port ${port}`);
-});
+    
+      await db.addGraphdata(email, graphData);
+      res.json(graphData);
+    }catch (err) {
+        console.error("Graph error:", err);
+        res.status(500).json({ msg: "Server error" });
+      }
+    });
 
-ws(httpService);
-
+(async () => {
+  try {
+    await db.connectDB();
+    const httpService = app.listen(port, () => {
+      console.log(`Listening on port ${port}`);
+    });
+  ws(httpService);
+    peerProxy(httpService);
+  } catch (err) {
+    console.error('Startup failed:', err);
+    process.exit(1);
+  }
+})();
 

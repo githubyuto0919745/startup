@@ -6,15 +6,13 @@ const db = require('./database.js');
 
 
 function ws(httpServer){
-  
-  // app.use(cors({
-  //   origin: "http://localhost:5173",
-  //   credentials: true
-  // }));
+
 
   const allowedOrigins = [
-  process.env.FRONTEND_URL, // set in production environment
-  "http://localhost:5173"
+  process.env.FRONTEND_URL, 
+  "http://localhost:5173",
+  "https://startup.qrcreate24.click"
+  
   ];
 
   const io = new Server(httpServer, { 
@@ -26,15 +24,33 @@ function ws(httpServer){
   },
   });
 
+   io.use(async (socket, next) => {
+    try {
+      // Example: read token from query or headers
+      const token = socket.handshake.auth?.token || socket.handshake.headers['authorization'];
+      if (!token) return next(new Error('Unauthorized'));
+
+      // Retrieve user by token from database
+      const user = await db.getUserByToken(token.replace('Bearer ', ''));
+      if (!user) return next(new Error('Unauthorized'));
+
+      socket.user = user; 
+      next();
+    } catch (err) {
+      next(err);
+    }
+  });
 
 
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
 
-    socket.on('getGraph', async (userEmail) => {
+    socket.on('getGraph', async () => {
       try {
-        const profile = await db.getProfile(userEmail);
-        const diet = await db.getDietHistory(userEmail);
+
+        const email = socket.user.email;
+        const profile = await db.getProfile(email);
+        const diet = await db.getDietHistory(email);
 
         if (!profile || diet.length === 0) {
           socket.emit('graphData', { profile: null, intake: null });
