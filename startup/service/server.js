@@ -24,31 +24,12 @@ function ws(httpServer){
   },
   });
 
-   io.use(async (socket, next) => {
-    try {
-      // Example: read token from query or headers
-      const token = socket.handshake.auth?.token || socket.handshake.headers['authorization'];
-      if (!token) return next(new Error('Unauthorized'));
-
-      // Retrieve user by token from database
-      const user = await db.getUserByToken(token.replace('Bearer ', ''));
-      if (!user) return next(new Error('Unauthorized'));
-
-      socket.user = user; 
-      next();
-    } catch (err) {
-      next(err);
-    }
-  });
-
 
   io.on('connection', (socket) => {
     console.log('Client connected:', socket.id);
 
-    socket.on('getGraph', async () => {
+    socket.on('getGraph', async (email) => {
       try {
-
-        const email = socket.user.email;
         const profile = await db.getProfile(email);
         const diet = await db.getDietHistory(email);
 

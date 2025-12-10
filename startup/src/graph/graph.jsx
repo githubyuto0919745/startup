@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './graph.css';
 import {BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Legend} from "recharts";
 import {useNavigate} from 'react-router-dom';
+import {io} from 'socket.io-client';
 
 
 export default function Graph(){
@@ -15,56 +16,32 @@ export default function Graph(){
     useEffect(() => {
         const port = window.location.port;
         const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-        const socket = new WebSocket(`${protocol}://${window.location.hostname}:${port}/ws`);
-            
-          
-        socket.onopen =()=>{
-
-            const message = {
-                from: "GraphPage",
-                type: "getGraph",
-                value: localStorage.getItem("userName"),
-            };
-
-            socket.send(JSON.stringify(message));
-        };
-
-        socket.onclose = () =>{
-            console.log("Graph WebSocket disconnected");
-        };
-
-        
-        socket.onmessage = async (msg) =>{
-            let data = msg.data;
-            if(data instanceof Blob){
-                data = await data.text();
-            }
-            
-            let event;
-            try{
-                event = JSON.parse(data);
-            } catch (e){
-                console.error("Could not parse message: ", data);
+        const socket = io('/', {   
+            withCredentials: true,
+        });
+        socket.on('connect', () => {
+            socket.emit('getGraph', localStorage.getItem("userName"));
+        });
+        socket.on('graphData', (graph) => {
+            if (!graph || !graph.profile || !graph.intake) {
+                setHasData(false);
                 return;
             }
 
-            const graph = event.value;
-            
-            
-
             const chart = [
-            { name: "Calories (kcal)", profile: graph.profile.calories ||0, intake: graph.intake.calories || 0},
-            { name: "Protein (g)", profile: graph.profile.protein || 0, intake: graph.intake.protein   || 0},
-            { name: "Carbs (g)", profile: graph.profile.carbs || 0, intake: graph.intake.carbs || 0},
-            { name: "Fats (g)", profile: graph.profile.fats || 0, intake: graph.intake.fats || 0},
-        ];
+                { name: 'Calories (kcal)', profile: graph.profile.calories || 0, intake: graph.intake.calories || 0 },
+                { name: 'Protein (g)',     profile: graph.profile.protein  || 0, intake: graph.intake.protein  || 0 },
+                { name: 'Carbs (g)',       profile: graph.profile.carbs    || 0, intake: graph.intake.carbs    || 0 },
+                { name: 'Fats (g)',        profile: graph.profile.fats     || 0, intake: graph.intake.fats     || 0 },
+            ];
 
             setChartData(chart);
-            setHasData(chart.some(d=> d.profile >0 || d.intake >0));
+            setHasData(chart.some(d => d.profile > 0 || d.intake > 0));
+            });
 
-        };
-           
-
+            socket.on('disconnect', () => {
+            console.log('Graph socket disconnected');
+            });
 
         const fetchJoke = async() =>{
             try{
@@ -79,9 +56,12 @@ export default function Graph(){
             
             fetchJoke();
             
+            
 
-            return () => socket.close();
-        },[localStorage.getItem("userName")]);
+           
+
+            return () => socket.disconnect();
+        },[]);
     
 
 
